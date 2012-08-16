@@ -1,0 +1,12 @@
+Template Project
+----------------
+
+This is a C++ project template with CERN ROOT-System integration and
+GNU Autotools build system.
+
+Run "fill-in-template.sh" to fill in the template interactively, setting
+the project name, author information, and so on. After fill-in-template.sh
+has run through, it will automatically remove itself.
+
+Run "build-inst-run-test.sh" to test a full build, install, run, uninstall,
+maintainer-clean cycle before or after filling in the project template.
