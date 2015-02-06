@@ -5,9 +5,22 @@ MAINTAINERCLEANFILES = Makefile.in
 
 lib_LTLIBRARIES = libm-stats.la
 
-libm_stats_la_SOURCES =
+libm_stats_la_SOURCES = \
+	MSConfig.cxx \
+	MSDataPoint.cxx \
+	MSDataSet.cxx \
+	MSMinimizer.cxx \
+	MSModel.cxx \
+	MSParameter.cxx
 
-libm_stats_la_headers =
+libm_stats_la_headers = \
+	MSConfig.h \
+	MSDataObject.h \
+	MSDataPoint.h \
+	MSDataSet.h \
+	MSMinimizer.h \
+	MSModel.h \
+	MSParameter.h
 
 pkginclude_HEADERS = $(libm_stats_la_headers)
 
