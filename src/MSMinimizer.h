@@ -20,7 +20,7 @@ class MSMinimizer : public MSDataObject
       //! Constructor
       MSMinimizer(const std::string& name = "");
       //! Desstructor
-      ~MSMinimizer();
+      virtual ~MSMinimizer();
 
 
       //! Add model (the function does NOT take ownership of the object

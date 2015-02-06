@@ -18,7 +18,7 @@ class MSModel : public MSDataObject
       //! Constructor
       MSModel(const std::string& name = "");
       //! Destructor
-      ~MSModel();
+      virtual ~MSModel();
 
     //
     // Parameters:

@@ -24,7 +24,7 @@ class MSConfig : public MSDataObject
       //! Constructor
       MSConfig(const std::string& name = "");
       //! Destructor
-      ~MSConfig();
+      virtual ~MSConfig();
 
       //! Basic parameterName-value pair
       typedef std::pair<std::string, double> MSConfigSubSetPair;

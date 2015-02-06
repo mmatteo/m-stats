@@ -21,7 +21,7 @@ class MSParameter : public MSDataObject
       //! Constructor
       MSParameter(const std::string& name = "", double rangeMin=0, double rangeMax=0);
       //! Destructor
-      ~MSParameter();
+      virtual ~MSParameter();
 
       //! Enum defining the type of parameter
       enum EMSParameterType {

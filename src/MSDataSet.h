@@ -23,7 +23,7 @@ class MSDataSet : public MSDataObject
       //! Constructor
       MSDataSet(const std::string& name = "");
       //! Destructor
-      ~MSDataSet();
+      virtual ~MSDataSet();
 
       //! Add new point (the function takes ownership of the object)
       void AddDataPoint(MSDataPoint* dataPoint) {

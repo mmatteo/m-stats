@@ -21,7 +21,7 @@ class MSDataPoint : public MSDataObject
       //! Constructor
       MSDataPoint(const std::string& name = "");
       //! Destructor
-      ~MSDataPoint();
+      virtual ~MSDataPoint();
 
       //! Pair containing the observable name and value
       typedef std::pair<std::string, double> MSDataPointPair;
