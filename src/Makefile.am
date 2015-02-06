@@ -5,20 +5,18 @@ MAINTAINERCLEANFILES = Makefile.in
 
 lib_LTLIBRARIES = libm-stats.la
 
-libm_stats_la_SOURCES = \
-	HelloWorld.cxx
+libm_stats_la_SOURCES =
 
-libm_stats_la_headers = \
-	HelloWorld.h
+libm_stats_la_headers =
 
 pkginclude_HEADERS = $(libm_stats_la_headers)
 
-bin_PROGRAMS = m-stats
+bin_PROGRAMS =
 
 noinst_PROGRAMS =
 
-m_stats_SOURCES = m-stats.cxx
-m_stats_LDADD = libm-stats.la
+# m_stats_SOURCES = m-stats.cxx
+# m_stats_LDADD = libm-stats.la
 # m_stats_LDFLAGS = -static
 
 

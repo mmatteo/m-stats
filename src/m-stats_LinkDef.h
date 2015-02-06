@@ -3,8 +3,6 @@
 
 #ifdef __CINT__
 
-// HelloWorld.h
-#pragma link C++ class mst::HelloWorld-;
 
 #endif // __CINT__
 
