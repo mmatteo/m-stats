@@ -11,9 +11,9 @@ EXTRA_DIST = autogen.sh
 SUBDIRS = src doc
 
 dist_doc_DATA = README COPYING AUTHORS ChangeLog INSTALL NEWS
-dist_bin_SCRIPTS = template-project-config
+dist_bin_SCRIPTS = m-stats-config
 
 if COND_PKGCONFIG
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = template-project.pc
+pkgconfig_DATA = m-stats.pc
 endif

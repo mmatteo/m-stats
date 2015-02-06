@@ -3,54 +3,54 @@ MAINTAINERCLEANFILES = Makefile.in
 
 # EXTRA_DIST = some extra files, e.g. test-data
 
-lib_LTLIBRARIES = libtemplate-project.la
+lib_LTLIBRARIES = libm-stats.la
 
-libtemplate_project_la_SOURCES = \
+libm_stats_la_SOURCES = \
 	HelloWorld.cxx
 
-libtemplate_project_la_headers = \
+libm_stats_la_headers = \
 	HelloWorld.h
 
-pkginclude_HEADERS = $(libtemplate_project_la_headers)
+pkginclude_HEADERS = $(libm_stats_la_headers)
 
-bin_PROGRAMS = template-project
+bin_PROGRAMS = m-stats
 
 noinst_PROGRAMS =
 
-template_project_SOURCES = template-project.cxx
-template_project_LDADD = libtemplate-project.la
-# template_project_LDFLAGS = -static
+m_stats_SOURCES = m-stats.cxx
+m_stats_LDADD = libm-stats.la
+# m_stats_LDFLAGS = -static
 
 
 rootmapdir = $(libdir)
 rootmap_DATA =
 
 
-libtemplate_project_la_SOURCES += libtemplate-project_rdict.cxx
-rootmap_DATA += .libs/libtemplate-project.rootmap
+libm_stats_la_SOURCES += libm-stats_rdict.cxx
+rootmap_DATA += .libs/libm-stats.rootmap
 
 if WITH_CLING
 
-rootmap_DATA += .libs/libtemplatemIproject_rdict.pcm
+rootmap_DATA += .libs/libmmIstats_rdict.pcm
 
-libtemplate-project_rdict.cxx: $(libtemplate_project_la_headers) template-project_LinkDef.h
-	$(ROOTCLING) -f $@.tmp -s libtemplate-project@SHLIBEXT@ -rml libtemplate-project@SHLIBEXT@ -rmf libtemplate-project.rootmap -c $(CPPFLAGS) $(CXXFLAGS) -I$(includedir) $+
+libm-stats_rdict.cxx: $(libm_stats_la_headers) m-stats_LinkDef.h
+	$(ROOTCLING) -f $@.tmp -s libm-stats@SHLIBEXT@ -rml libm-stats@SHLIBEXT@ -rmf libm-stats.rootmap -c $(CPPFLAGS) $(CXXFLAGS) -I$(includedir) $+
 	@# Some magic to prefix header names with "$(PACKAGE)/", and only that, in dictionary and rootmap:
 	$(GREP) -F -v '"'"`pwd`"'/",' $@.tmp | $(SED) 's|"\([^"]*/\)\?\([^/"]*[.]h\)",|"'$(PACKAGE)/'\2",| ; s|\\"\([^"]*/\)\?\([^/"]*[.]h\)\\"\\n"|\\"'$(PACKAGE)/'\2\\"\\n"|' > $@ && $(RM) $@.tmp
 	$(SED) 's|\$$clingAutoload\$$\([^/""]\+/\)*|$$clingAutoload$$'$(PACKAGE)'/|; /.*DICTPAYLOAD(.*/,/.*)DICTPAYLOAD.*/ s|#include "\([^/"]\+/\)*\(.*\)"|#include <'$(PACKAGE)'/\2>|' -i $@
-	$(SED) 's|\(header \+\)\([^ ].*/\)\?\([^ ].*[.]h\)|\1'$(PACKAGE)/'\3|' -i libtemplate-project.rootmap
+	$(SED) 's|\(header \+\)\([^ ].*/\)\?\([^ ].*[.]h\)|\1'$(PACKAGE)/'\3|' -i libm-stats.rootmap
 
-.libs/libtemplate-project.rootmap: libtemplate-project.la
-	cp libtemplate-project.rootmap libtemplatemIproject_rdict.pcm .libs/
+.libs/libm-stats.rootmap: libm-stats.la
+	cp libm-stats.rootmap libmmIstats_rdict.pcm .libs/
 
-.libs/libtemplatemIproject_rdict.pcm: .libs/libtemplate-project.rootmap
+.libs/libmmIstats_rdict.pcm: .libs/libm-stats.rootmap
 
 else # not WITH_CLING
 
-libtemplate-project_rdict.cxx: $(libtemplate_project_la_headers) template-project_LinkDef.h
+libm-stats_rdict.cxx: $(libm_stats_la_headers) m-stats_LinkDef.h
 	$(ROOTCINT) -f $@ -c -p $(CPPFLAGS) $(CXXFLAGS) $+
 
-.libs/libtemplate-project.rootmap: libtemplate-project.la | $(libtemplate_project_la_headers) template-project_LinkDef.h
-	$(RLIBMAP) -o $@ -l .libs/libtemplate-project@SHLIBEXT@ -c $|
+.libs/libm-stats.rootmap: libm-stats.la | $(libm_stats_la_headers) m-stats_LinkDef.h
+	$(RLIBMAP) -o $@ -l .libs/libm-stats@SHLIBEXT@ -c $|
 
 endif # WITH_CLING

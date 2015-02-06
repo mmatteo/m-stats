@@ -1,4 +1,4 @@
-// Copyright (C) YEAR AUTHOR <EMAIL>
+// Copyright (C) 2015 Matteo Agostini <matteo.agostini@ph.tum.de>
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ using namespace std;
 
 int main(int argc, char *argv[], char *envp[]) {
 	try {
-		tmplns::HelloWorld().run();
+		mst::HelloWorld().run();
 
 		return 0;
 	}
