@@ -15,13 +15,13 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#ifndef MSParameter_H
-#define MSParameter_H
-
 /*
  * Base class for the parameters. It contains all info concerning the parameter.
  * It is used to pass and store info during the fit
  */
+
+#ifndef MST_MSParameter_H
+#define MST_MSParameter_H
 
 #include "MSDataObject.h"
 
@@ -208,4 +208,4 @@ typedef std::pair<std::string, MSParameter*> MSParameterPair;
 
 } // namespace mst
 
-#endif
+#endif  // MST_MSParameter_H

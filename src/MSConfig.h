@@ -83,4 +83,4 @@ class MSConfig : public MSDataObject
 
 } // namespace mst
 
-#endif //MST_MSConfig_H
+#endif // MST_MSConfig_H

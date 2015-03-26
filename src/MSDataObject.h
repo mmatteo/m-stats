@@ -19,8 +19,8 @@
  * Base class for all objects. It provides a name and an index.
  */
 
-#ifndef _MSDataObject_HH
-#define _MSDataObject_HH
+#ifndef MST_MSDataObject_H
+#define MST_MSDataObject_H
 
 // c++ libs
 #include <string>
@@ -62,4 +62,4 @@ class MSDataObject
 
 } // namespace mst
 
-#endif // _MSDataObject_HH
+#endif // MST_MSDataObject_H
