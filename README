@@ -1,0 +1,46 @@
+M-STATS: framework for frequentist statistical analysis 
+=======================================================
+
+This software package provides libraries for implementing and solving
+statistical problems with focus on frequentist techniques
+
+
+Installation
+------------
+
+To install, run
+
+     ./autogen.sh
+     ./configure [--prefix=/path/to/custom/dir]
+     make [-jN] install
+
+Note: by default, 'make install' will install all the files in
+'/usr/local/bin', '/usr/local/lib', etc.  You can specify
+an installation prefix other than '/usr/local' using:
+
+   ./configure --prefix=/path/to/custom/dir
+
+
+Running the code
+----------------
+If the installation dir is not already in the default list of your system, you
+need to export some env variables (example for bash):
+
+export PREFIX=/path/to/custom/dir
+export PATH=$MYPREFIX/bin:$PATH
+export LD_LIBRARY_PATH=$MYPREFIX/lib:$LD_LIBRARY_PATH
+export CPATH="$MYPREFIX/include:$CPATH"
+export PKG_CONFIG_PATH="$MYPREFIX2/lib/pkgconfig:$PKG_CONFIG_PATH"
+
+
+
+Code documentation
+------------------
+All code is commented by using doxygen notation and documentation in html.
+To create, run
+
+   doxygen doc/
+
+Browse the html starting from doc/html/index.html, i.e. run
+
+   firefox doc/html/index.html
