@@ -14,14 +14,20 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-
-/*
+/*!
+ * \class mst::MSConfig
+ *
+ * \brief 
  * General class to store configuation parameters.
+ *
+ * \details 
  * The parameter is stored in a map<std::string, double> (MSConfigSubSetMap)
  * which provides a flexible key-based access where the key is the name of the
  * parameter. A different map is created for each data set and it is also
  * stored into a map map<std::string, MSConfigSubSetMap*> (MSConfigMap) where
  * the key is the subset name.
+ *
+ * \author Matteo Agostini
  */
 
 #ifndef MST_MSConfig_H

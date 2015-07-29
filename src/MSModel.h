@@ -14,10 +14,20 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-
-/*
- * Base class for analysis modules.
+/*!
+ * \class mst::MSModel
+ *
+ * \brief 
+ * Base class for all analysis modules.
+ *
+ * \details 
+ * Pure virutal class providing a general interace for  all analysis models. 
+ * It provides virtual functions to be used by the minimizer and handles
+ * the data sets.
+ *
+ * \author Matteo Agostini
  */
+
 
 #ifndef MST_MSModel_H
 #define MST_MSModel_H

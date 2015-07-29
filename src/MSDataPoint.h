@@ -14,10 +14,17 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-
-/*
- * Class to store all info concerning a data point.
- * All observables measured are stored into a std::map.
+/*!
+ * \class mst::MSDataPoint
+ *
+ * \brief 
+ * Data point info
+ *
+ * \details 
+ * Class storing all info concerning a data point. All observables measured 
+ * are stored into a std::map.
+ *
+ * \author Matteo Agostini
  */
 
 #ifndef MST_MSDataPoint_H

@@ -14,10 +14,18 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-
-/*
- * Base class for all objects. It provides a name and an index.
+/*!
+ * \class mst::MSDataObject
+ *
+ * \brief 
+ * Base class for all objects. 
+ *
+ * \details 
+ * It provides a general type, a name and an index.
+ *
+ * \author Matteo Agostini
  */
+
 
 #ifndef MST_MSDataObject_H
 #define MST_MSDataObject_H
