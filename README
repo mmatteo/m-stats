@@ -27,10 +27,10 @@ If the installation dir is not already in the default list of your system, you
 need to export some env variables (example for bash):
 
 export PREFIX=/path/to/custom/dir
-export PATH=$MYPREFIX/bin:$PATH
-export LD_LIBRARY_PATH=$MYPREFIX/lib:$LD_LIBRARY_PATH
+export PATH=$PREFIX/bin:$PATH
+export LD_LIBRARY_PATH=$PREFIX/lib:$LD_LIBRARY_PATH
 export CPATH="$MYPREFIX/include:$CPATH"
-export PKG_CONFIG_PATH="$MYPREFIX2/lib/pkgconfig:$PKG_CONFIG_PATH"
+export PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig:$PKG_CONFIG_PATH"
 
 
 
