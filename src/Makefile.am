@@ -42,7 +42,7 @@ rootmap_DATA += .libs/libm-stats.rootmap
 
 if WITH_CLING
 
-rootmap_DATA += .libs/libmmIstats_rdict.pcm
+rootmap_DATA += .libs/libm-stats_rdict.pcm
 
 libm-stats_rdict.cxx: $(libm_stats_la_headers) m-stats_LinkDef.h
 	$(ROOTCLING) -f $@.tmp -s libm-stats@SHLIBEXT@ -rml libm-stats@SHLIBEXT@ -rmf libm-stats.rootmap -c $(CPPFLAGS) $(CXXFLAGS) -I$(includedir) $+
@@ -52,9 +52,9 @@ libm-stats_rdict.cxx: $(libm_stats_la_headers) m-stats_LinkDef.h
 	$(SED) 's|\(header \+\)\([^ ].*/\)\?\([^ ].*[.]h\)|\1'$(PACKAGE)/'\3|' -i libm-stats.rootmap
 
 .libs/libm-stats.rootmap: libm-stats.la
-	cp libm-stats.rootmap libmmIstats_rdict.pcm .libs/
+	cp libm-stats.rootmap libm-stats_rdict.pcm .libs/
 
-.libs/libmmIstats_rdict.pcm: .libs/libm-stats.rootmap
+.libs/libm-stats_rdict.pcm: .libs/libm-stats.rootmap
 
 else # not WITH_CLING
 
