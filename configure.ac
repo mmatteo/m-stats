@@ -11,13 +11,13 @@ AM_INIT_AUTOMAKE([-Wall -Werror])
 
 # Workaround for newer vs. older versions of Automake:
 m4_ifdef([AM_PROG_AR], [AM_PROG_AR])
- 
 
 AC_LIBTOOL_DLOPEN
 AC_PROG_LIBTOOL
 AC_PROG_CXX
 
 CXX_PROJECT_INIT
+AX_CXX_COMPILE_STDCXX_11([noext])
 
 
 # Checks for dependencies
