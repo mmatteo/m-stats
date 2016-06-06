@@ -28,6 +28,11 @@ bin_PROGRAMS =
 
 noinst_PROGRAMS =
 
+# m_stats_SOURCES =
+# m_stats_LDADD =
+# m_stats_LDFLAGS = -static
+
+
 rootmapdir = $(libdir)
 rootmap_DATA =
 
@@ -35,28 +40,16 @@ rootmap_DATA =
 libm_stats_la_SOURCES += libm-stats_rdict.cxx
 rootmap_DATA += .libs/libm-stats.rootmap
 
-if WITH_CLING
-
 rootmap_DATA += .libs/libm@ROOTPCMDASH@stats_rdict.pcm
 
 libm-stats_rdict.cxx: $(libm_stats_la_headers) m-stats_LinkDef.h
-	$(ROOTCLING) -f $@.tmp -s libm-stats@SHLIBEXT@ -rml libm-stats@SHLIBEXT@ -rmf libm-stats.rootmap -c $(CPPFLAGS) $(CXXFLAGS) -I$(includedir) $+
+	$(ROOTCLING) -f $@.tmp -s libm-stats@SHLIBEXT@ -rml libm-stats@SHLIBEXT@ -rmf libm-stats.rootmap.tmp -c $(CPPFLAGS) $(CXXFLAGS) -I$(includedir) $+
 	@# Some magic to prefix header names with "$(PACKAGE)/", and only that, in dictionary and rootmap:
-	$(GREP) -F -v '"'"`pwd`"'/",' $@.tmp | $(SED) 's|"\([^"]*/\)\?\([^/"]*[.]h\)",|"'$(PACKAGE)/'\2",| ; s|\\"\([^"]*/\)\?\([^/"]*[.]h\)\\"\\n"|\\"'$(PACKAGE)/'\2\\"\\n"|' > $@ && $(RM) $@.tmp
-	$(SED) 's|\$$clingAutoload\$$\([^/""]\+/\)*|$$clingAutoload$$'$(PACKAGE)'/|; /.*DICTPAYLOAD(.*/,/.*)DICTPAYLOAD.*/ s|#include "\([^/"]\+/\)*\(.*\)"|#include <'$(PACKAGE)'/\2>|' -i $@
-	$(SED) 's|\(header \+\)\([^ ].*/\)\?\([^ ].*[.]h\)|\1'$(PACKAGE)/'\3|' -i libm-stats.rootmap
+	$(GREP) -F -v '"'"`pwd`"'/",' $@.tmp | $(SED) 's|"\([^/"]*/\)*\([^/"]*[.]h\)",|"'$(PACKAGE)/'\2",| ; s|\\"\([^/"]*/\)*\([^/"]*[.]h\)\\"\\n"|\\"'$(PACKAGE)/'\2\\"\\n"|' > $@.tmp2
+	$(SED) 's|\$$clingAutoload\$$\([^/"]*/\)*|$$clingAutoload$$'$(PACKAGE)'/|; /.*DICTPAYLOAD(.*/,/.*)DICTPAYLOAD.*/ s|#include "\([^/"]*/\)*\(.*\)"|#include <'$(PACKAGE)'/\2>|' $@.tmp2 > $@ && $(RM) $@.tmp $@.tmp2
+	$(SED) 's|\(header  *\)\([^ ].*/\)*\([^ ].*[.]h\)|\1'$(PACKAGE)/'\3|' libm-stats.rootmap.tmp > libm-stats.rootmap && $(RM) libm-stats.rootmap.tmp
 
 .libs/libm-stats.rootmap: libm-stats.la
 	cp libm-stats.rootmap libm@ROOTPCMDASH@stats_rdict.pcm .libs/
 
 .libs/libm@ROOTPCMDASH@stats_rdict.pcm: .libs/libm-stats.rootmap
-
-else # not WITH_CLING
-
-libm-stats_rdict.cxx: $(libm_stats_la_headers) m-stats_LinkDef.h
-	$(ROOTCINT) -f $@ -c -p $(CPPFLAGS) $(CXXFLAGS) $+
-
-.libs/libm-stats.rootmap: libm-stats.la | $(libm_stats_la_headers) m-stats_LinkDef.h
-	$(RLIBMAP) -o $@ -l .libs/libm-stats@SHLIBEXT@ -c $|
-
-endif # WITH_CLING

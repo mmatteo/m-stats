@@ -17,6 +17,9 @@ AC_DEFUN([CXX_PROJECT_INIT],
 
 	# Checks for tools:
 
+	AC_CHECK_PROGS(GREP, grep, false)
+	AC_CHECK_PROGS(SED, sed, false)
+
 	AC_CHECK_PROGS(DOXYGEN, doxygen, false)
 	AM_CONDITIONAL([COND_DOXYGEN], [test "$DOXYGEN" != "false"])
 
