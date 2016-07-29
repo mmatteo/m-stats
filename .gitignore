@@ -2,6 +2,7 @@
 /Makefile.in
 
 /aclocal.m4
+/ar-lib
 /autom4te.cache
 
 /config.guess
@@ -23,9 +24,8 @@ m4/ltversion.m4
 /libtool
 /ltmain.sh
 /missing
-/stamp-h1
 /compile
-/ar-lib
+/stamp-h1
 
 /*.pc
 /*-config
@@ -46,6 +46,7 @@ m4/ltversion.m4
 
 #auto generated backups
 *.*~
+*.*swp
 
 /doc/Makefile
 /doc/Makefile.in
