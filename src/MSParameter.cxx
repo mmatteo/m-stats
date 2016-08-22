@@ -28,7 +28,9 @@ MSParameter::MSParameter(const std::string& name, double rangeMin, double rangeM
    fParameterType(kTypeUndefined), fVariableType(kVarUndefined),
    fFixed(false), fGlobal(false),
    fRangeMinSet(false), fRangeMaxSet(false), fRangeMin(0.0), fRangeMax(0.0),
-   fFitStartValue(0.0), fFitStartValueSet(false), fFitStartStep(0.01), //Check default minuit value
+   fFitStartValue(0.0), fFitStartValueSet(false), 
+   fFitStartValueDefault(0.0), fFitStartValueSetDefault(false),
+   fFitStartStep(0.01), //Check default minuit value
    fFitBestValue(0.0), fFitBestValueErr(0.0), fFitLowerLimit(0.0), fFitUpperLimit(0.0)
 {
    SetParameterType(MSParameter::kTypeUndefined);
