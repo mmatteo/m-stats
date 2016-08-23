@@ -223,9 +223,8 @@ class MSParameter : public MSDataObject
 };
 
 //! Vector of parameters used to build up a model
-//typedef std::vector<MSParameter*> MSParameterVector;
-typedef std::map <std::string, MSParameter*> MSParameterMap;
-typedef std::pair<std::string, MSParameter*> MSParameterPair;
+using MSParameterMap = std::map <std::string, MSParameter*>;
+using MSParameterPair = std::pair<std::string, MSParameter*>;
 
 } // namespace mst
 

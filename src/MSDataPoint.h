@@ -48,9 +48,9 @@ class MSDataPoint : public MSDataObject
       virtual ~MSDataPoint();
 
       //! Pair containing the observable name and value
-      typedef std::pair<std::string, double> MSDataPointPair;
+      using MSDataPointPair = std::pair<std::string, double>;
       //! Map storing the observables
-      typedef std::map <std::string, double> MSDataPointMap;
+      using  MSDataPointMap = std::map <std::string, double>;
 
       //! Clear the map (interface to std::map::clear)
       void Clear() { if(fMap) fMap->clear(); }
@@ -78,7 +78,7 @@ class MSDataPoint : public MSDataObject
 };
 
 //! Type defining a vector of dataPoint. Used to create a dataset
-typedef std::vector<MSDataPoint*> MSDataPointVector;
+using MSDataPointVector = std::vector<MSDataPoint*>;
 
 } // namespace mst
 

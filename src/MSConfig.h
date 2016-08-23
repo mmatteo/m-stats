@@ -50,13 +50,13 @@ class MSConfig : public MSDataObject
       virtual ~MSConfig();
 
       //! Basic parameterName-value pair
-      typedef std::pair<std::string, double> MSConfigSubSetPair;
+      using MSConfigSubSetPair = std::pair<std::string, double>;
       //! Map of parameterName-value pairs
-      typedef std::map <std::string, double> MSConfigSubSetMap;
+      using MSConfigSubSetMap = std::map<std::string, double>;
       //! Pair of subSetName-MSConfigSubSetMap
-      typedef std::pair<std::string, MSConfigSubSetMap*> MSConfigPair;
+      using MSConfigPair = std::pair<std::string, MSConfigSubSetMap*>;
       //! Map to store subSetName-MSConfigSubSetMap pairs
-      typedef std::map <std::string, MSConfigSubSetMap*> MSConfigMap;
+      using MSConfigMap  = std::map <std::string, MSConfigSubSetMap*>;
 
       //! Set Parameter value in the specify subSet
       bool   SetPar(const std::string& subSetName, const std::string& parName, double val);
