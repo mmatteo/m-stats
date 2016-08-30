@@ -93,18 +93,33 @@ class MSMinimizer : public MSDataObject
       TMinuit* GetMinuit() const { return fMinuit;}
 
       //! Sync parameter info from the model to minuit
-      void SyncFitParameters();
+      //! Optionally, do not reset the starting values of the fit parameters and 
+      //! leave the  values corresponding to the best fit point found in the 
+      //! previous interatoin
+      void SyncFitParameters(bool resetFitStartValue  = true);
 
-      //! Interface to migrad
-      void Migrad();
+      //! Call the minimizer
+      void Minimize(const std::string& minimizer = "MINIMIZE", 
+                    bool resetFitStartValue = true);
+      
+      //! Call the minimizer
+      void Minimize(const std::string& minimizer, bool resetFitStartValue, 
+                    int maxcalls, double tolerance) {
+         SetMinuitMaxCalls(maxcalls);
+         SetMinuitTolerance(tolerance);
+         Minimize(minimizer, resetFitStartValue);
+      }
 
-      //! Interface to migrad
+      //! Deprecated function kept for backward compatibility
       void Migrad(int maxcalls, double tolerance) {
          SetMinuitMaxCalls(maxcalls);
          SetMinuitTolerance(tolerance);
-         Migrad();
+         Minimize("MINIMIZE", false);
       }
-
+      //! Deprecated function kept for backward compatibility
+      void Migrad() {
+         Minimize("MINIMIZE", false);
+      }
 
       //! Get output status after minuit last call
       int GetMinuitStatus() const { return fMinuitErrorFlag; }

@@ -27,13 +27,13 @@
 
 // MSModel.h
 #pragma link C++ class   mst::MSModel-;
-#pragma link C++ typedef mst::MSModelVector;
+//#pragma link C++ typedef mst::MSModelVector;
 
 // MSParameter.h
 #pragma link C++ class   mst::MSParameter-;
 // #pragma link C++ typedef mst::MSParameterVector
-#pragma link C++ typedef mst::MSParameterMap;
-#pragma link C++ typedef mst::MSParameterPair;
+//#pragma link C++ typedef mst::MSParameterMap;
+//#pragma link C++ typedef mst::MSParameterPair;
 
 #endif // __CINT__
 

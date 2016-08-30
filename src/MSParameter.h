@@ -37,6 +37,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <iostream>
 
 namespace mst {
 
@@ -90,9 +91,13 @@ class MSParameter : public MSDataObject
       //! Set fixed parameter
       void SetFixed(bool fixed = true) { fFixed = fixed; }
       //! Fix parameter
-      void FixTo(double value) { fFixed = true; SetFitStartValue(value); }
+      void FixTo(double value) { fFixed = true; SetFitStartValue(value, false); }
       //! Release the parameter
-      void Release() { fFixed = false; }
+      void Release() { 
+         fFixed = false; 
+         fFitStartValueSet = fFitStartValueSetDefault;
+         fFitStartValue = fFitStartValueDefault;
+      }
       //! Check if the parameter is fixed
       bool IsFixed() const { return fFixed; }
       //! Set gloabal parameter
@@ -135,8 +140,12 @@ class MSParameter : public MSDataObject
       }
 
       //! Set fit starting value of the parameter
-      void SetFitStartValue(double value) {
+      void SetFitStartValue(double value, bool setDefault = true) {
          fFitStartValueSet = true; fFitStartValue = value;
+         if (setDefault) { 
+            fFitStartValueSetDefault = true; 
+            fFitStartValueDefault = value; 
+         }
       }
       //! Check if the fit starting value of the par is set
       inline bool IsFitStartValueSet() const { return fFitStartValueSet; }
@@ -197,10 +206,14 @@ class MSParameter : public MSDataObject
       //! Range edges value
       double fRangeMin, fRangeMax;
 
-      //! Starting value for the fit
+      //! Temporary starting value for the fit
       double fFitStartValue;
-      //! Starting value for the fit set
+      //! Temporary starting value for the fit set
       bool fFitStartValueSet;
+      //! Default starting value for the fit
+      double fFitStartValueDefault;
+      //! Default starting value for the fit set
+      bool fFitStartValueSetDefault;
       //! Starting fit steps
       double fFitStartStep;
 
@@ -210,9 +223,8 @@ class MSParameter : public MSDataObject
 };
 
 //! Vector of parameters used to build up a model
-//typedef std::vector<MSParameter*> MSParameterVector;
-typedef std::map <std::string, MSParameter*> MSParameterMap;
-typedef std::pair<std::string, MSParameter*> MSParameterPair;
+using MSParameterMap = std::map <std::string, MSParameter*>;
+using MSParameterPair = std::pair<std::string, MSParameter*>;
 
 } // namespace mst
 

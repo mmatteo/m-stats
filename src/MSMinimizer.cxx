@@ -102,7 +102,7 @@ void MSMinimizer::SetMinuitVerbosity(int level)
    fMinuit->SetPrintLevel(level);
 }
 
-void MSMinimizer::SyncFitParameters()
+void MSMinimizer::SyncFitParameters( bool resetParStartVal)
 {
    // Check whether minuit has been last sync against this minimizer
    // and define value of global pointer
@@ -184,10 +184,11 @@ void MSMinimizer::SyncFitParameters()
             fMinuit->mnexcm("RELEASE", fMinuitArglist , 1, fMinuitErrorFlag);
          }
 
-         if (gIt->second->GetFitStartValue() != lIt->second->GetFitStartValue()||
-               gIt->second->GetFitStartStep()  != lIt->second->GetFitStartStep() ||
-               gIt->second->GetRangeMin()      != lIt->second->GetRangeMin() ||
-               gIt->second->GetRangeMax()      != lIt->second->GetRangeMax() ) {
+         if ( resetParStartVal ||
+              gIt->second->GetFitStartValue() != lIt->second->GetFitStartValue()||
+              gIt->second->GetFitStartStep()  != lIt->second->GetFitStartStep() ||
+              gIt->second->GetRangeMin()      != lIt->second->GetRangeMin() ||
+              gIt->second->GetRangeMax()      != lIt->second->GetRangeMax() ) {
             if (fVerbosity) std::cerr << "MSMinimizer::SyncFitParameters: "
                                       << "par[" << d
                                       << "] \"" << gIt->first << "\""
@@ -217,16 +218,15 @@ void MSMinimizer::SyncFitParameters()
 
 }
 
-void MSMinimizer::Migrad()
-{
+void MSMinimizer::Minimize(const std::string& minimizer, bool resetFitStartValue) {
    // Sync parameters
-   SyncFitParameters();
+   SyncFitParameters(resetFitStartValue);
    // Set maxcalls
    fMinuitArglist[0] = fMinuitMaxCalls;
    // Set tolerance
    fMinuitArglist[1] = fMinuitTollerance;
    // Run actual minimization
-   fMinuit->mnexcm("MINIMIZE", fMinuitArglist, 2, fMinuitErrorFlag);
+   fMinuit->mnexcm(minimizer.c_str(), fMinuitArglist, 2, fMinuitErrorFlag);
 
    if (GetMinuitStatus()) fNMigradFails++;
 

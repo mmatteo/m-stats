@@ -140,7 +140,7 @@ class MSModel : public MSDataObject
       MSDataSet* fDataSet;
 };
 
-typedef std::vector<MSModel*> MSModelVector;
+using MSModelVector = std::vector<MSModel*>;
 
 } // namespace mst
 
