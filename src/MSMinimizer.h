@@ -35,7 +35,7 @@
 #include "MSModel.h"
 
 // root libs
-#include "TMinuit.h"
+#include <TMinuit.h>
 
 namespace mst {
 

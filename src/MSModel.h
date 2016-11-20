@@ -33,7 +33,6 @@
 #define MST_MSModel_H
 
 #include "MSDataObject.h"
-
 #include "MSParameter.h"
 #include "MSDataSet.h"
 
