@@ -36,6 +36,8 @@
 #include "MSParameter.h"
 #include "MSDataSet.h"
 
+#include <vector>
+
 namespace mst {
 
 class MSModel : public MSDataObject
@@ -54,10 +56,10 @@ class MSModel : public MSDataObject
       MSParameterMap* GetParameters() { return fParameters; }
 
       //! Get const pointer to the vector of parameters
-      const MSParameterMap * GetParameters() const { return fParameters; }
+      const MSParameterMap* GetParameters() const { return fParameters; }
 
-      //! Get the number of parameters
-      unsigned int GetNParameters() const { return fParameters->size(); }
+      //! Get the number of parameters registered in an instance of the class
+      unsigned int GetNLocalParameters() const { return fParNameList->size(); }
 
       //! Add new parameter (the function takes ownership of the object)
       void AddParameter(MSParameter* parameter);
@@ -135,8 +137,12 @@ class MSModel : public MSDataObject
    protected:
       //! Pointer to the global map of parameters
       static MSParameterMap* fParameters;
+
       //! Pointer to the data set
       MSDataSet* fDataSet;
+
+      //! names of the parameters registered from an instance of the class
+      std::vector<std::string> * fParNameList;
 };
 
 using MSModelVector = std::vector<MSModel*>;

@@ -16,14 +16,18 @@
 
 
 #include "MSModel.h"
+#include <algorithm>
+
 
 namespace mst {
 
 MSParameterMap* MSModel::fParameters = 0;
 
-MSModel::MSModel(const std::string& name) : MSDataObject(name), fDataSet(0)
+MSModel::MSModel(const std::string& name) : MSDataObject(name), 
+   fDataSet(0), fParNameList(0)
 {
    if (!fParameters) fParameters = new MSParameterMap();
+   fParNameList = new std::vector<std::string>;
 }
 
 MSModel::~MSModel()
@@ -41,6 +45,9 @@ MSModel::~MSModel()
       delete fDataSet;
       fDataSet = 0;
    }
+
+   delete fParNameList;
+   fParNameList =0;
 }
 
 void MSModel::AddParameter(MSParameter* par)
@@ -51,19 +58,31 @@ void MSModel::AddParameter(MSParameter* par)
       exit(1);
    }
 
-   par->SetName(GetGlobalName(par->GetName(), par->IsGlobal()));
-
-   if(fParameters->find(par->GetName()) == fParameters->end()) {
-      fParameters->insert(MSParameterPair(par->GetName(),par));
-   } else {
-      if (!par->IsGlobal()) {
+   // check if the parameter was already registered by this instance of the
+   // model
+   if (std::find(fParNameList->begin(),fParNameList->end(),par->GetName()) 
+       != fParNameList->end()) {
          std::cerr
             << "MSModel::AddParameter: parameter  \""
             << par->GetName()
-            << "\" already present in the map " << std::endl;
+            << "\" already registered in the model" << std::endl;
+         delete par;
+         return;
+   } else {
+      fParNameList->push_back(par->GetName());
+
+      // Check if the parmater is already in the map. This is the case for
+      // global parameters that are registered by the first instance of the
+      // model. Before searching build and apply the global name
+      par->SetName( GetGlobalName(par->GetName(), par->IsGlobal()));
+
+      if(fParameters->find(par->GetName()) == fParameters->end()) {
+         fParameters->insert(MSParameterPair(par->GetName(),par));
+      } else {
+         delete par;
       }
-      delete par;
    }
+   return;
 }
 
 MSParameterMap::iterator MSModel::GetParameterIterator(const std::string& localName) const
