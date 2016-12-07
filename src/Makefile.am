@@ -11,7 +11,8 @@ libm_stats_la_SOURCES = \
 	MSDataSet.cxx \
 	MSMinimizer.cxx \
 	MSModel.cxx \
-	MSParameter.cxx
+	MSParameter.cxx \
+	MSMath.cxx
 
 libm_stats_la_headers = \
 	MSConfig.h \
@@ -20,7 +21,9 @@ libm_stats_la_headers = \
 	MSDataSet.h \
 	MSMinimizer.h \
 	MSModel.h \
-	MSParameter.h
+	MSParameter.h \
+	MSMath.h
+
 
 pkginclude_HEADERS = $(libm_stats_la_headers)
 
