@@ -58,7 +58,7 @@ class MSModel : public MSObject
       const MSParameterMap* GetParameters() const { return fParameters; }
 
       //! Get the number of parameters registered in an instance of the class
-      unsigned int GetNLocalParameters() const { return fParNameList->size(); }
+      unsigned int GetNLocalParameters() { return fParNameList->size(); }
 
       //! Get the vector of parameters registered in an instance of the class
       const std::vector<std::string>* GetLocalParameters() const { return fParNameList; }

@@ -47,11 +47,19 @@ class MSMinimizer : public MSObject
       //! Desstructor
       virtual ~MSMinimizer();
 
-
       //! Add model (the function does NOT take ownership of the object
       void AddModel(MSModel* model) { fModelVector->push_back(model); }
       //! Get the number of models added to the minimizer
       unsigned int GetNModels() const { return fModelVector->size(); }
+
+      //! Get the internal vector of models
+      const MSModelVector* GetModels() const { return fModelVector; }
+
+      //! Get pointer to parameter map (the minimizer keeps ownership of the obj!)
+      const MSParameterMap* GetParameterMap() const { return fGlobalParMap; }
+
+      //! Get pointer to parameter map (the minimizer keeps ownership of the obj!)
+      MSParameterMap* GetParameterMap() { return fGlobalParMap; }
 
       //! Get pointer to parameter (the minimizer keeps ownership of the obj!)
       MSParameter* GetParameter(const std::string& parGloablName) {
