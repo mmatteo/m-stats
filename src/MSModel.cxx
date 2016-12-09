@@ -23,8 +23,8 @@ namespace mst {
 
 MSParameterMap* MSModel::fParameters = 0;
 
-MSModel::MSModel(const std::string& name) : MSDataObject(name), 
-   fDataSet(0), fParNameList(0)
+MSModel::MSModel(const std::string& name) : MSObject(name), 
+   fParNameList(0), fExposure(0)
 {
    if (!fParameters) fParameters = new MSParameterMap();
    fParNameList = new std::vector<std::string>;
@@ -39,11 +39,6 @@ MSModel::~MSModel()
       fParameters->clear();
       delete fParameters;
       fParameters = 0;
-   }
-
-   if (fDataSet) {
-      delete fDataSet;
-      fDataSet = 0;
    }
 
    delete fParNameList;
@@ -116,12 +111,6 @@ unsigned int MSModel::GetParameterIndex(const std::string& localName) const
    MSParameterMap::const_iterator it = GetParameterIterator(localName);
    MSParameterMap::const_iterator it0 = fParameters->begin();
    return std::distance(it0, it);
-}
-
-void MSModel::SetDataSet(MSDataSet* dataSet)
-{
-   if (fDataSet) delete fDataSet;
-   fDataSet = dataSet;
 }
 
 } // namespace mst

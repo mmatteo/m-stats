@@ -22,8 +22,7 @@
  *
  * \details 
  * Pure virutal class providing a general interace for  all analysis models. 
- * It provides virtual functions to be used by the minimizer and handles
- * the data sets.
+ * It provides virtual functions to be used by the minimizer.
  *
  * \author Matteo Agostini
  */
@@ -32,7 +31,7 @@
 #ifndef MST_MSModel_H
 #define MST_MSModel_H
 
-#include "MSDataObject.h"
+#include "MSObject.h"
 #include "MSParameter.h"
 #include "MSDataSet.h"
 
@@ -40,7 +39,7 @@
 
 namespace mst {
 
-class MSModel : public MSDataObject
+class MSModel : public MSObject
 {
    public:
       //! Constructor
@@ -60,6 +59,9 @@ class MSModel : public MSDataObject
 
       //! Get the number of parameters registered in an instance of the class
       unsigned int GetNLocalParameters() const { return fParNameList->size(); }
+
+      //! Get the vector of parameters registered in an instance of the class
+      const std::vector<std::string>* GetLocalParameters() const { return fParNameList; }
 
       //! Add new parameter (the function takes ownership of the object)
       void AddParameter(MSParameter* parameter);
@@ -82,31 +84,6 @@ class MSModel : public MSDataObject
       //! Get the local/global name  (the foramt is {global:local}.name)
       std::string GetGlobalName (const std::string& name, bool isGlobal = false) const {
          return (isGlobal ? "global" : GetName()) + "." + name;
-      }
-
-    //
-    // Data set
-    //
-   public:
-      //! Set data set (the function takes ownership of the object)
-      void SetDataSet(MSDataSet* dataSet);
-
-      //! Get pointer to the data set
-      const MSDataSet* GetDataSet() const { return fDataSet; }
-
-      //! Get number of points in the data set
-      unsigned int GetNDataPoints() const {
-         return (fDataSet ? fDataSet->GetNDataPoints() : 0);
-      }
-
-      //! Get pointer to a data point
-      const MSDataPoint* GetDataPoint(int index) const {
-           return (fDataSet ? fDataSet->GetDataPoint(index) : 0);
-      }
-
-      //! Get value of an observable in a data point
-      double GetDataPoint(int index, const std::string& field) const {
-         return (fDataSet ? fDataSet->GetDataPoint(index)->Get(field) : 0);
       }
 
     //
@@ -133,16 +110,24 @@ class MSModel : public MSDataObject
       //! Virtual function to set the NLogLikelihood function
       virtual double NLogLikelihood(double* parameters) = 0;
 
+    //
+    // Parameter of interest for the model
+    //
+      //! Set the expsosure of data set
+      void SetExposure (double exposure) {fExposure = exposure;}
+      //! Get the expsosure of data set
+      double GetExposure () const {return fExposure;}
 
    protected:
       //! Pointer to the global map of parameters
       static MSParameterMap* fParameters;
 
-      //! Pointer to the data set
-      MSDataSet* fDataSet;
-
       //! names of the parameters registered from an instance of the class
-      std::vector<std::string> * fParNameList;
+      std::vector<std::string>* fParNameList;
+
+      //! Exposure of the data set
+      double fExposure;
+
 };
 
 using MSModelVector = std::vector<MSModel*>;
