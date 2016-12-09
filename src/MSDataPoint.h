@@ -30,7 +30,7 @@
 #ifndef MST_MSDataPoint_H
 #define MST_MSDataPoint_H
 
-#include "MSDataObject.h"
+#include "MSObject.h"
 
 // c++ libs
 #include <string>
@@ -39,7 +39,7 @@
 
 namespace mst {
 
-class MSDataPoint : public MSDataObject
+class MSDataPoint : public MSObject
 {
    public:
       //! Constructor

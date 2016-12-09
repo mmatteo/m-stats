@@ -12,17 +12,25 @@ libm_stats_la_SOURCES = \
 	MSMinimizer.cxx \
 	MSModel.cxx \
 	MSParameter.cxx \
-	MSMath.cxx
+	MSMath.cxx \
+	MSModelTHnBinLL.cxx \
+	MSPDFBuilderTHn.cxx \
+	MSModelPulls.cxx
 
 libm_stats_la_headers = \
 	MSConfig.h \
-	MSDataObject.h \
+	MSObject.h \
 	MSDataPoint.h \
 	MSDataSet.h \
 	MSMinimizer.h \
 	MSModel.h \
 	MSParameter.h \
-	MSMath.h
+	MSMath.h \
+	MSModelTHnBinLL.h \
+	MSPDFBuilderTHn.h \
+	MSModelDataSet.h \
+	MSModelTHn.h  \
+	MSModelPulls.h  
 
 
 pkginclude_HEADERS = $(libm_stats_la_headers)

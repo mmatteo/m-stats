@@ -29,7 +29,6 @@
 #ifndef MST_MSMath_H
 #define MST_MSMath_H
 
-#include "MSDataObject.h"
 
 // c++ libs
 

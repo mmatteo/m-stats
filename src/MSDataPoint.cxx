@@ -23,7 +23,7 @@
 
 namespace mst {
 
-MSDataPoint::MSDataPoint(const std::string& name) : MSDataObject(name), fMap(0)
+MSDataPoint::MSDataPoint(const std::string& name) : MSObject(name), fMap(0)
 {
   fMap = new MSDataPointMap();
 }

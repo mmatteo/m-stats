@@ -31,7 +31,7 @@
 #ifndef MST_MSParameter_H
 #define MST_MSParameter_H
 
-#include "MSDataObject.h"
+#include "MSObject.h"
 
 // c++ libs
 #include <string>
@@ -41,7 +41,7 @@
 
 namespace mst {
 
-class MSParameter : public MSDataObject
+class MSParameter : public MSObject
 {
    public:
       //! Constructor
@@ -223,7 +223,7 @@ class MSParameter : public MSDataObject
 };
 
 //! Vector of parameters used to build up a model
-using MSParameterMap = std::map <std::string, MSParameter*>;
+using MSParameterMap =  std::map <std::string, MSParameter*>;
 using MSParameterPair = std::pair<std::string, MSParameter*>;
 
 } // namespace mst

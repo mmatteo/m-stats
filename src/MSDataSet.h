@@ -31,7 +31,7 @@
 #ifndef MST_MSDataSet_H
 #define MST_MSDataSet_H
 
-#include "MSDataObject.h"
+#include "MSObject.h"
 #include "MSDataPoint.h"
 
 // c++ libs
@@ -43,7 +43,7 @@ namespace mst {
 
 class MSDataPoint;
 
-class MSDataSet : public MSDataObject
+class MSDataSet : public MSObject
 {
    public:
       //! Constructor

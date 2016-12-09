@@ -26,7 +26,7 @@ const bool rootWrapper = false;
 
 MSMinimizer* MSMinimizer::global_pointer = 0;
 
-MSMinimizer::MSMinimizer(const std::string& name) : MSDataObject(name),
+MSMinimizer::MSMinimizer(const std::string& name) : MSObject(name),
    fModelVector(0), fGlobalParMap(0), fLocalParMap(0),
    fMinuit(0), fMinuitErrorFlag(0), fNMigradFails(0),
    fMinuitMaxCalls(2000), fMinuitTollerance(1e-6),

@@ -30,7 +30,7 @@
 #ifndef MST_MSMinimizer_H
 #define MST_MSMinimizer_H
 
-#include "MSDataObject.h"
+#include "MSObject.h"
 
 #include "MSModel.h"
 
@@ -39,7 +39,7 @@
 
 namespace mst {
 
-class MSMinimizer : public MSDataObject
+class MSMinimizer : public MSObject
 {
    public:
       //! Constructor

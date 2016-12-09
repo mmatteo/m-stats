@@ -24,7 +24,7 @@
 
 namespace mst {
 
-MSConfig::MSConfig(const std::string& name): MSDataObject(name), fConfMap(0)
+MSConfig::MSConfig(const std::string& name): MSObject(name), fConfMap(0)
 {
    fConfMap = new MSConfigMap();
 }

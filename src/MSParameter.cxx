@@ -24,7 +24,7 @@
 namespace mst {
 
 MSParameter::MSParameter(const std::string& name, double rangeMin, double rangeMax) :
-   MSDataObject(name),
+   MSObject(name),
    fParameterType(kTypeUndefined), fVariableType(kVarUndefined),
    fFixed(false), fGlobal(false),
    fRangeMinSet(false), fRangeMaxSet(false), fRangeMin(0.0), fRangeMax(0.0),
