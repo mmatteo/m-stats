@@ -50,11 +50,11 @@ class MSParameter : public MSObject
       virtual ~MSParameter();
 
       //! Enum defining the type of parameter
-      enum EMSParameterType {
+      enum class EMSParameterType : int {
          kTypeUndefined = 0, kPoi = 1, kNuisance = 2, kInput = 3
       };
       //! Enum defining the type of variable used to represent the parameter
-      enum EMSVariableType {
+      enum class  EMSVariableType : int {
          kVarUndefined = 0, kShort = 1, kInt = 2, kFloat = 3, kDouble = 4
       };
 
@@ -67,17 +67,17 @@ class MSParameter : public MSObject
          return fParameterType;
       }
       //! Flag the parameter as parameter of interest
-      void SetPoi() { fParameterType = kPoi;     }
+      void SetPoi() { fParameterType = EMSParameterType::kPoi; }
       //! Flag the parameter as parameter of nuisance
-      void SetNuisance() { fParameterType = kNuisance; }
+      void SetNuisance() { fParameterType = EMSParameterType::kNuisance; }
       //! Flag the parameter as  input parameter of the analysis
-      void SetInput() { fParameterType = kInput;   }
+      void SetInput() { fParameterType = EMSParameterType::kInput; }
       //! Check if the parameter is of interest
-      inline bool IsPoi() const { return (fParameterType == kPoi); }
+      inline bool IsPoi() const { return (fParameterType == EMSParameterType::kPoi); }
       //! Check if the parameter is nuisance
-      inline bool IsNuisance() const { return (fParameterType == kNuisance); }
+      inline bool IsNuisance() const { return (fParameterType == EMSParameterType::kNuisance); }
       //! Check if the parameter is an input of the analysis
-      inline bool IsInput() const { return (fParameterType == kInput); }
+      inline bool IsInput() const { return (fParameterType == EMSParameterType::kInput); }
 
       //! Set the type of variables used to represent the parameter
       void SetVariableType(EMSVariableType variableType) {

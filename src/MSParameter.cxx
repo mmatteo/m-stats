@@ -25,7 +25,8 @@ namespace mst {
 
 MSParameter::MSParameter(const std::string& name, double rangeMin, double rangeMax) :
    MSObject(name),
-   fParameterType(kTypeUndefined), fVariableType(kVarUndefined),
+   fParameterType(EMSParameterType::kTypeUndefined), 
+   fVariableType(EMSVariableType::kVarUndefined),
    fFixed(false), fGlobal(false),
    fRangeMinSet(false), fRangeMaxSet(false), fRangeMin(0.0), fRangeMax(0.0),
    fFitStartValue(0.0), fFitStartValueSet(false), 
@@ -33,8 +34,8 @@ MSParameter::MSParameter(const std::string& name, double rangeMin, double rangeM
    fFitStartStep(0.01), //Check default minuit value
    fFitBestValue(0.0), fFitBestValueErr(0.0), fFitLowerLimit(0.0), fFitUpperLimit(0.0)
 {
-   SetParameterType(MSParameter::kTypeUndefined);
-   SetVariableType(MSParameter::kVarUndefined);
+   SetParameterType(EMSParameterType::kTypeUndefined);
+   SetVariableType(EMSVariableType::kVarUndefined);
    //SetRange(rangeMin, rangeMax);
    ResetFitResult();
    SetFixed(false);
