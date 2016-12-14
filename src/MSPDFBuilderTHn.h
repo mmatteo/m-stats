@@ -59,8 +59,11 @@ namespace mst {
       using HistMap  = std::map <const std::string, THn*>;
 
       //! Load histogram from file
-      void LoadHist(const std::string& fileName, const std::string& histName,
-            const std::string& newHistName = "");
+      void LoadHist(const std::string& fileName, 
+                    const std::string& histName,
+                    const std::string& newHistName = "",
+                    const Int_t  ndim_pr = 0, 
+                    const Int_t* dim_pr = nullptr);
 
       //! Normalize loaded histograms. The normalization is performed in the 
       //! user range if respectAxisUserRange is true. Otherwise by default it

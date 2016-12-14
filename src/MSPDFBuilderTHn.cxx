@@ -15,14 +15,16 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include "TROOT.h"
-#include "TFile.h"
 
 #include "MSPDFBuilderTHn.h"
 
 // c++ lins
 #include <iostream>
 
+// ROOT libgs
+#include <TROOT.h>
+#include <TFile.h>
+#include <THnBase.h>
 
 namespace mst {
 
@@ -42,7 +44,8 @@ MSPDFBuilderTHn::~MSPDFBuilderTHn()
 }
 
 void MSPDFBuilderTHn::LoadHist(const std::string& fileName, 
-      const std::string& histName, const std::string& newHistName) {
+      const std::string& histName, const std::string& newHistName,
+      const Int_t  ndim_pr, const Int_t* dim_pr) {
 
    // Check if an hist with the same name was already loaded
   if (fHistMap->find(newHistName) != fHistMap->end()) {
@@ -58,12 +61,24 @@ void MSPDFBuilderTHn::LoadHist(const std::string& fileName,
   }
 
   // load new hist checking for the type
-  THn* hist = dynamic_cast<THn*>(inputFile.Get(histName.c_str()));
+  THnBase* hist = dynamic_cast<THnBase*>(inputFile.Get(histName.c_str()));
   if (!hist) {
     std::cerr << "error: PDF not found in the file\n";
   } else {
-     hist->SetName(newHistName.c_str());
-     fHistMap->insert( HistPair( newHistName, hist));
+     // Create local THn
+     THn* tmp = THn::CreateHn(newHistName.c_str(), newHistName.c_str(), hist);
+     if (dim_pr == nullptr) {
+        tmp->SetName(newHistName.c_str());
+        tmp->SetTitle(newHistName.c_str());
+        fHistMap->insert( HistPair( newHistName, tmp));
+     } else {
+        THn* tmp_pr = tmp->Projection(ndim_pr, dim_pr);
+        delete tmp;
+        tmp_pr->SetName(newHistName.c_str());
+        tmp_pr->SetTitle(newHistName.c_str());
+        fHistMap->insert( HistPair( newHistName, tmp_pr));
+     }
+     delete hist;
   }
 
   inputFile.Close();
