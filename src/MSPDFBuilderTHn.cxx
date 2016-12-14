@@ -101,6 +101,7 @@ void MSPDFBuilderTHn::NormalizeHists(bool respectAxisUserRange) {
 void MSPDFBuilderTHn::SetRangeUser(double min, double max, int axis) {
    // loop over all hists
    for (auto im : *fHistMap) {
+      if (im.second->GetAxis(axis) != nullptr)
          im.second->GetAxis(axis)->SetRangeUser(min,max);
    }
 }
@@ -174,8 +175,8 @@ THn* MSPDFBuilderTHn::GetMCRealizaton(int ctsNum, bool addPoissonFluctuation) {
       max[i]   = fTmpPDF->GetAxis(i)->GetXmax();
    }
 
-   THn* realization = new THnI (Form("mc_%i",gRandom->GetSeed()),
-                                Form("mc_%i",gRandom->GetSeed()),
+   THn* realization = new THnI (Form("mc_seed_%u",gRandom->GetSeed()),
+                                Form("mc_seed_%u",gRandom->GetSeed()),
                                 dim, bin, min, max);
 
    for (int i = 0 ; i < dim; i++) 
