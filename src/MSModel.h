@@ -55,34 +55,26 @@ class MSModel : public MSObject
    public:
       //! Get  pointer to the vector of parameters
       MSParameterMap* GetParameters() { return fParameters; }
-
       //! Get const pointer to the vector of parameters
       const MSParameterMap* GetParameters() const { return fParameters; }
-
       //! Get the number of parameters registered in an instance of the class
       unsigned int GetNLocalParameters() { return fParNameList->size(); }
-
       //! Get the vector of parameters registered in an instance of the class
       const std::vector<std::string>* GetLocalParameters() const { return fParNameList; }
-
       //! Add new parameter (the function takes ownership of the object)
       void AddParameter(MSParameter* parameter);
-
       //! Get pointer to a parameter (call exit if the parameter is not found)
       MSParameter* GetParameter(const std::string& localName)  const;
 
    protected:
       //! Get iterator to a parameter
       MSParameterMap::iterator GetParameterIterator(const std::string& localName) const;
-
       //! Get index of a parameter (use names without local/global prefix)
        unsigned int GetParameterIndex(const std::string& localName) const;
-
       //! Get parameter value from Minuit array (use names without local/global prefix)
        double GetMinuitParameter(double* par, const std::string& localName) const {
           return par[GetParameterIndex(localName)];
        }
-
       //! Get the local/global name  (the foramt is {global:local}.name)
       std::string GetGlobalName (const std::string& name, bool isGlobal = false) const {
          return (isGlobal ? "global" : GetName()) + "." + name;
@@ -96,7 +88,6 @@ class MSModel : public MSObject
       double GetBestFitParameter(const std::string& name) const {
          return GetParameter(name) ? GetParameter(name)->GetFitBestValue() : 0;
       }
-
       //! Get the best fit value error for a parameter
       double GetBestFitParameterErr(const std::string& name) const {
          return GetParameter(name) ? GetParameter(name)->GetFitBestValueErr() : 0;
@@ -115,6 +106,7 @@ class MSModel : public MSObject
     //
     // Parameter of interest for the model
     //
+    public:
       //! Set the expsosure of data set
       void SetExposure (double exposure) {fExposure = exposure;}
       //! Get the expsosure of data set
@@ -123,14 +115,13 @@ class MSModel : public MSObject
    protected:
       //! Pointer to the global map of parameters
       static MSParameterMap* fParameters;
-
       //! names of the parameters registered from an instance of the class
-      std::vector<std::string>* fParNameList;
-
+      std::vector<std::string>* fParNameList {nullptr};
       //! Exposure of the data set
-      double fExposure;
-
+      double fExposure = 0;
 };
+
+using MSModelVector = std::vector<MSModel*>;
 
 template <typename T>
 class MSModelT: public MSModel {
@@ -153,14 +144,12 @@ class MSModelT: public MSModel {
       const T* GetDataSet() const { return fDataSet; }
 
    protected:
-      const T* fDataSet; 
+      //! pointer to the data set
+      const T* fDataSet {nullptr}; 
 };
 
-
-using MSModelVector = std::vector<MSModel*>;
 using MSModelTHn = MSModelT<THn>;
 using MSModelDataSet = MSModelT<MSDataSet>;
-
 
 } // namespace mst
 
