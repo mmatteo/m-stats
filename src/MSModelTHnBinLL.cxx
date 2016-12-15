@@ -47,17 +47,17 @@ double MSModelTHnBinLL::NLogLikelihood(double* par)
       std::cerr << "NLogLikelihood >> error: PDFBuilder returned unknown object type\n";
       exit(1);
    }
-   if (fDataHist == 0) {
+   if (fDataSet == 0) {
       std::cerr << "NLogLikelihood >> error: DataHist of unknown object type\n";
       exit(1);
    }
 
    double nLogLikelihood = 0.0;
    // loop over dimensions
-   auto it = fDataHist->CreateIter(kTRUE);
+   auto it = fDataSet->CreateIter(kTRUE);
    Long64_t i = 0;
    while ((i = it->Next()) >= 0)
-         nLogLikelihood += MSMath::LogPoisson(fDataHist->GetBinContent(i), 
+         nLogLikelihood += MSMath::LogPoisson(fDataSet->GetBinContent(i), 
                                               fExposure*pdf->GetBinContent(i));
 
    delete pdf;

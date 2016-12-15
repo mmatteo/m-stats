@@ -34,7 +34,7 @@
 #ifndef MST_MSModelTHnBinLL_H
 #define MST_MSModelTHnBinLL_H
 
-#include "MSModelTHn.h"
+#include "MSModel.h"
 #include "MSPDFBuilderTHn.h"
 
 namespace mst {

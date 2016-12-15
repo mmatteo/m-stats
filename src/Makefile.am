@@ -28,8 +28,6 @@ libm_stats_la_headers = \
 	MSMath.h \
 	MSModelTHnBinLL.h \
 	MSPDFBuilderTHn.h \
-	MSModelDataSet.h \
-	MSModelTHn.h  \
 	MSModelPulls.h  
 
 

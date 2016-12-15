@@ -37,6 +37,8 @@
 
 #include <vector>
 
+#include <THn.h>
+
 namespace mst {
 
 class MSModel : public MSObject
@@ -130,7 +132,35 @@ class MSModel : public MSObject
 
 };
 
+template <typename T>
+class MSModelT: public MSModel {
+   public:
+      MSModelT(const std::string& name = ""): MSModel(name), fDataSet(nullptr) {}
+      virtual ~MSModelT() { delete fDataSet; }
+
+      //! Virtual function from MSModel.
+      //! To be overloaded in the concrete analysis module.
+      virtual void InitializeParameters() = 0;
+
+      //! Virtual function from MSModel to be overloaded in the concrete class
+      //! To be overloaded in the concrete analysis module.
+      virtual double NLogLikelihood(double* par) = 0;
+
+      //! Set data set 
+      void SetDataSet(T* dataSet) { delete fDataSet; fDataSet = dataSet; }
+
+      //! Get pointer to the data set
+      const T* GetDataSet() const { return fDataSet; }
+
+   protected:
+      const T* fDataSet; 
+};
+
+
 using MSModelVector = std::vector<MSModel*>;
+using MSModelTHn = MSModelT<THn>;
+using MSModelDataSet = MSModelT<MSDataSet>;
+
 
 } // namespace mst
 
