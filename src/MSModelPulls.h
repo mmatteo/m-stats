@@ -35,24 +35,42 @@
 
 namespace mst {
 
-class MSModelPullGaus : public mst::MSModel
+class MSModelPull : public mst::MSModel
 {
    public:
       //! Constructor
-      MSModelPullGaus(const std::string& name = "");
+      MSModelPull(const std::string& name = ""): MSModel(name) {}
       //! Destructor
-      virtual ~MSModelPullGaus();
+      virtual ~MSModelPull() {}
+
+      //! Function used for initializing the model parameters
+      void InitializeParameters() = 0;
+      //! function returning the negative log likelihood function to be 
+      //! minimized (-2LL)
+      double NLogLikelihood(double* par) = 0 ;
+
+      //! Set parameter to pull
+      void SetPullPar (const std::string& par) { fPullPar = par;}
+      //! Get parameter to pull
+      std::string GetPullPar () const { return fPullPar;}
+
+   public:
+      std::string fPullPar {""};
+};
+
+class MSModelPullGaus : public mst::MSModelPull
+{
+   public:
+      //! Constructor
+      MSModelPullGaus(const std::string& name = ""): MSModelPull(name) {}
+      //! Destructor
+      virtual ~MSModelPullGaus() {}
 
       //! Function used for initializing the model parameters
       void InitializeParameters();
       //! function returning the negative log likelihood function to be 
       //! minimized (-2LL)
       double NLogLikelihood(double* par);
-
-      //! Set parameter to pull
-      void SetPullPar (const std::string& par) { fPullPar = par;}
-      //! Get parameter to pull
-      std::string GetPullPar () const { return fPullPar;}
 
       //! Set centroid
       void SetCentroid (double centroid) {fCentroid = centroid;}
@@ -65,9 +83,8 @@ class MSModelPullGaus : public mst::MSModel
       void SetGaussPar (double c, double s) { SetCentroid(c); SetSigma(s); }
 
    public:
-      std::string fPullPar;
-      double fCentroid;
-      double fSigma;
+      double fCentroid {0};
+      double fSigma {0};
 
 };
 

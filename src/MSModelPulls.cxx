@@ -21,16 +21,6 @@
 
 namespace mst {
 
-
-MSModelPullGaus::MSModelPullGaus(const std::string& name) : 
-   mst::MSModel(name), fPullPar(""), fCentroid(0), fSigma(0)
-{
-}
-
-MSModelPullGaus::~MSModelPullGaus()
-{
-}
-
 void MSModelPullGaus::InitializeParameters()
 {
    // Check if the name of the parameter to pull has been set
@@ -47,8 +37,6 @@ void MSModelPullGaus::InitializeParameters()
    par->SetFitStartValue(fCentroid);
    AddParameter(par);
 }
-
-
 
 double MSModelPullGaus::NLogLikelihood(double* par)
 {

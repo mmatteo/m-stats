@@ -15,24 +15,23 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include "MSModelTHnBinLL.h"
+#include "MSModelTHnBMLF.h"
 #include "MSMath.h"
 
 namespace mst {
 
 
-MSModelTHnBinLL::MSModelTHnBinLL(const std::string& name) : 
+MSModelTHnBMLF::MSModelTHnBMLF(const std::string& name) : 
    MSModelTHn(name), fPDFBuilder(0)
 {
 }
 
-MSModelTHnBinLL::~MSModelTHnBinLL()
+MSModelTHnBMLF::~MSModelTHnBMLF()
 {
    delete fPDFBuilder;
 }
 
-
-double MSModelTHnBinLL::NLogLikelihood(double* par)
+double MSModelTHnBMLF::NLogLikelihood(double* par)
 {
    fPDFBuilder->ResetPDF();
 

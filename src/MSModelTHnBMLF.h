@@ -16,7 +16,7 @@
 
 
 /*!
- * \class mst::MSModelTHnBinLL
+ * \class mst::MSModelTHnBMLF
  *
  * \brief
  * basic analysis modeling implementing a binned likelihood fit of an histogram
@@ -31,21 +31,21 @@
  */
 
 
-#ifndef MST_MSModelTHnBinLL_H
-#define MST_MSModelTHnBinLL_H
+#ifndef MST_MSModelTHnBMLF_H
+#define MST_MSModelTHnBMLF_H
 
 #include "MSModel.h"
 #include "MSPDFBuilderTHn.h"
 
 namespace mst {
 
-class MSModelTHnBinLL : public MSModelTHn
+class MSModelTHnBMLF : public MSModelTHn
 {
    public:
       //! Constructor
-      MSModelTHnBinLL(const std::string& name = "");
+      MSModelTHnBMLF(const std::string& name = "");
       //! Destructor
-      virtual ~MSModelTHnBinLL();
+      virtual ~MSModelTHnBMLF();
 
       //! Function used for initializing the model parameters
       void InitializeParameters() {}
@@ -67,4 +67,4 @@ class MSModelTHnBinLL : public MSModelTHn
 
 } // namespace mst
 
-#endif //MST_MSModelTHnBinLL_H
+#endif //MST_MSModelTHnBMLF_H
