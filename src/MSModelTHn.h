@@ -61,7 +61,7 @@ class MSModelTHn : public mst::MSModel
 
       //! Associate to the module the pointer the data histogram.
       //! The function does not move the ownership of the object
-      void SetDataHist(const THn* data) {fDataHist = data;}
+      void SetDataHist(const THn* data) {delete fDataHist; fDataHist = data;}
 
       //! Return the pointer the data histogram.
       const THn* GetDataHist() const {return fDataHist;}

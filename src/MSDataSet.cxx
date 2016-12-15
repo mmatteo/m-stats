@@ -19,28 +19,22 @@
 
 namespace mst {
 
-MSDataSet::MSDataSet(const std::string& name) : MSObject(name), fVector(0)
+MSDataSet::MSDataSet(const std::string& name) : MSObject(name), fVector(nullptr)
 {
    fVector = new MSDataPointVector();
 }
 
 MSDataSet::~MSDataSet()
 {
-   if (fVector) {
-      for (size_t i = 0; i < fVector->size(); i++)
-         delete fVector->at(i);
-      delete fVector;
-      fVector = 0;
-   }
+   if (fVector != nullptr) 
+      for (auto& it : *fVector) delete it;
+
+   delete fVector;
 }
 
 void MSDataSet::Print() const
 {
-   if (fVector) {
-      for (unsigned int i =0; i < fVector->size(); i++) {
-         fVector->at(i)->Print();
-      }
-   }
+   if (fVector) for (const auto& it : *fVector) it->Print();
 }
 
 } // namespace mst

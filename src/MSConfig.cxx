@@ -24,20 +24,18 @@
 
 namespace mst {
 
-MSConfig::MSConfig(const std::string& name): MSObject(name), fConfMap(0)
+MSConfig::MSConfig(const std::string& name): MSObject(name), fConfMap(nullptr)
 {
    fConfMap = new MSConfigMap();
 }
 
 MSConfig::~MSConfig()
 {
-   if (fConfMap) {
-      for (MSConfigMap::iterator it = fConfMap->begin();
-           it != fConfMap->end(); ++it)
-         delete it->second;
+   if (fConfMap != nullptr) {
+      for (auto& it : *fConfMap) delete it.second;
       fConfMap->clear();
-      delete fConfMap;
    }
+   delete fConfMap;
 }
 
 bool MSConfig::SetPar (const std::string& subSetName,

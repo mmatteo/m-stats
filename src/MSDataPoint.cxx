@@ -23,25 +23,21 @@
 
 namespace mst {
 
-MSDataPoint::MSDataPoint(const std::string& name) : MSObject(name), fMap(0)
+MSDataPoint::MSDataPoint(const std::string& name) : MSObject(name), fMap(nullptr)
 {
   fMap = new MSDataPointMap();
 }
 
 MSDataPoint::~MSDataPoint()
 {
-   if (fMap) {
-      delete fMap;
-      fMap = 0;
-   }
+   delete fMap;
 }
 
 void MSDataPoint::Print() const
 {
-   for (MSDataPointMap::const_iterator it = fMap->begin();
-         it != fMap->end(); ++it) {
-       std::cout << "  " << it->first << ": " << std::setw(8) << it->second;
-   }
+   for (const auto& it : *fMap)
+       std::cout << "  " << it.first << ": " << std::setw(8) << it.second;
+
    std::cout << std::endl;
 
 }
