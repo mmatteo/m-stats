@@ -66,6 +66,7 @@ class MSMinimizer : public MSObject
          MSParameterMap::iterator it = fGlobalParMap->find(parGloablName);
          return it != fGlobalParMap->end() ? it->second : 0;
       }
+
       //! Print summary of the parameters
       void PrintParSummary() const {
          for (MSParameterMap::iterator it = fGlobalParMap->begin();
@@ -116,17 +117,6 @@ class MSMinimizer : public MSObject
          SetMinuitMaxCalls(maxcalls);
          SetMinuitTolerance(tolerance);
          Minimize(minimizer, resetFitStartValue);
-      }
-
-      //! Deprecated function kept for backward compatibility
-      void Migrad(int maxcalls, double tolerance) {
-         SetMinuitMaxCalls(maxcalls);
-         SetMinuitTolerance(tolerance);
-         Minimize("MINIMIZE", false);
-      }
-      //! Deprecated function kept for backward compatibility
-      void Migrad() {
-         Minimize("MINIMIZE", false);
       }
 
       //! Get output status after minuit last call

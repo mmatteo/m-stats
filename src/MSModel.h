@@ -57,14 +57,17 @@ class MSModel : public MSObject
       MSParameterMap* GetParameters() { return fParameters; }
       //! Get const pointer to the vector of parameters
       const MSParameterMap* GetParameters() const { return fParameters; }
-      //! Get the number of parameters registered in an instance of the class
-      unsigned int GetNLocalParameters() { return fParNameList->size(); }
-      //! Get the vector of parameters registered in an instance of the class
-      const std::vector<std::string>* GetLocalParameters() const { return fParNameList; }
+
       //! Add new parameter (the function takes ownership of the object)
       void AddParameter(MSParameter* parameter);
       //! Get pointer to a parameter (call exit if the parameter is not found)
       MSParameter* GetParameter(const std::string& localName)  const;
+
+      //! Get the vector of parameters registered in an instance of the class
+      const std::vector<std::string>* GetLocalParameters() const { return fParNameList; }
+      //! Get the number of parameters registered in an instance of the class
+      unsigned int GetNLocalParameters() { return fParNameList->size(); }
+
 
    protected:
       //! Get iterator to a parameter
@@ -78,19 +81,6 @@ class MSModel : public MSObject
       //! Get the local/global name  (the foramt is {global:local}.name)
       std::string GetGlobalName (const std::string& name, bool isGlobal = false) const {
          return (isGlobal ? "global" : GetName()) + "." + name;
-      }
-
-    //
-    // Fit
-    //
-   public:
-      //! Get the best fit value for a parameter
-      double GetBestFitParameter(const std::string& name) const {
-         return GetParameter(name) ? GetParameter(name)->GetFitBestValue() : 0;
-      }
-      //! Get the best fit value error for a parameter
-      double GetBestFitParameterErr(const std::string& name) const {
-         return GetParameter(name) ? GetParameter(name)->GetFitBestValueErr() : 0;
       }
 
     //
@@ -112,6 +102,9 @@ class MSModel : public MSObject
       //! Get the expsosure of data set
       double GetExposure () const {return fExposure;}
 
+    //
+    // Class members
+    //
    protected:
       //! Pointer to the global map of parameters
       static MSParameterMap* fParameters;
