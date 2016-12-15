@@ -23,8 +23,7 @@ namespace mst {
 
 MSParameterMap* MSModel::fParameters = 0;
 
-MSModel::MSModel(const std::string& name) : MSObject(name), 
-   fParNameList(0), fExposure(0)
+MSModel::MSModel(const std::string& name) : MSObject(name)
 {
    if (!fParameters) fParameters = new MSParameterMap();
    fParNameList = new std::vector<std::string>;
@@ -32,17 +31,13 @@ MSModel::MSModel(const std::string& name) : MSObject(name),
 
 MSModel::~MSModel()
 {
-   if (fParameters) {
-      for (MSParameterMap::iterator it = fParameters->begin();
-           it != fParameters->end(); ++it)
-         delete it->second;
+   if (fParameters != nullptr) {
+      for (auto& it : *fParameters) delete it.second;
       fParameters->clear();
       delete fParameters;
-      fParameters = 0;
    }
 
    delete fParNameList;
-   fParNameList =0;
 }
 
 void MSModel::AddParameter(MSParameter* par)
