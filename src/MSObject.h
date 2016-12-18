@@ -40,7 +40,7 @@ class MSObject
    public:
       //! Constructor
       MSObject(const std::string& name = "", int index = 0):
-         fName(name), fIndex(index), fVerbosity(0) {}
+         fName(name), fIndex(index) {}
       //! Destructor
       virtual ~MSObject() {}
 
@@ -61,11 +61,11 @@ class MSObject
 
    protected:
       //! Object name
-      std::string fName;
+      std::string fName {""};
       //! Object index
-      int fIndex;
+      int fIndex {0};
       //! Flag setting the verbosity level
-      int fVerbosity;
+      int fVerbosity {0};
 };
 
 } // namespace mst

@@ -21,8 +21,7 @@
 namespace mst {
 
 
-MSModelTHnBMLF::MSModelTHnBMLF(const std::string& name) : 
-   MSModelTHn(name), fPDFBuilder(0)
+MSModelTHnBMLF::MSModelTHnBMLF(const std::string& name) : MSModelTHn(name)
 {
 }
 

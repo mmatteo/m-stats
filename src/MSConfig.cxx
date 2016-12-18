@@ -34,8 +34,8 @@ MSConfig::~MSConfig()
    if (fConfMap != nullptr) {
       for (auto& it : *fConfMap) delete it.second;
       fConfMap->clear();
+      delete fConfMap;
    }
-   delete fConfMap;
 }
 
 bool MSConfig::SetPar (const std::string& subSetName,

@@ -34,6 +34,8 @@
 #ifndef MST_MSPDFBuilderTHn_H
 #define MST_MSPDFBuilderTHn_H
 
+#include "MSObject.h"
+
 // c++ libs
 #include <climits>
 #include <map>
@@ -45,7 +47,7 @@
 
 namespace mst {
 
-  class MSPDFBuilderTHn 
+  class MSPDFBuilderTHn : public MSObject
   {
     public:
       //! Constructor
@@ -96,8 +98,8 @@ namespace mst {
 
     protected:
       // Map of histograms
-      HistMap* fHistMap;
-      THn*     fTmpPDF;
+      HistMap* fHistMap {nullptr};
+      THn*     fTmpPDF  {nullptr};
   };
 
 } // namespace mst

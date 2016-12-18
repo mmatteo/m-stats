@@ -48,11 +48,11 @@ class MSModelTHnBMLF : public MSModelTHn
       virtual ~MSModelTHnBMLF();
 
       //! Function used for initializing the model parameters
-      void InitializeParameters() {}
+      void InitializeParameters() override {}
 
       //! function returning the negative log likelihood function to be 
       //! minimized (-2LL)
-      double NLogLikelihood(double* par);
+      double NLogLikelihood(double* par) override;
 
       //! Associate to the module the pointer the PDFBuilder.
       //! The function does not move the ownership of the object
@@ -62,7 +62,7 @@ class MSModelTHnBMLF : public MSModelTHn
 
    protected:
       //! Pointer to PDFBuilder
-      MSPDFBuilderTHn* fPDFBuilder;
+      MSPDFBuilderTHn* fPDFBuilder {nullptr};
 };
 
 } // namespace mst

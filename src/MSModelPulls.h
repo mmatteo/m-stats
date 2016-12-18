@@ -31,7 +31,7 @@
 #ifndef MST_MSModelPullGaus_H
 #define MST_MSModelPullGaus_H
 
-#include <MSModel.h>
+#include "MSModel.h"
 
 namespace mst {
 
@@ -67,10 +67,10 @@ class MSModelPullGaus : public mst::MSModelPull
       virtual ~MSModelPullGaus() {}
 
       //! Function used for initializing the model parameters
-      void InitializeParameters();
+      void InitializeParameters() override;
       //! function returning the negative log likelihood function to be 
       //! minimized (-2LL)
-      double NLogLikelihood(double* par);
+      double NLogLikelihood(double* par) override;
 
       //! Set centroid
       void SetCentroid (double centroid) {fCentroid = centroid;}
@@ -85,7 +85,6 @@ class MSModelPullGaus : public mst::MSModelPull
    public:
       double fCentroid {0};
       double fSigma {0};
-
 };
 
 } // namespace mst

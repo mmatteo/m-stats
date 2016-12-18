@@ -28,19 +28,20 @@
 
 namespace mst {
 
-MSPDFBuilderTHn::MSPDFBuilderTHn(const std::string& name):
-    fHistMap(0), fTmpPDF(0)
+MSPDFBuilderTHn::MSPDFBuilderTHn(const std::string& name): MSObject(name)
 {
   fHistMap = new HistMap;
 }
 
 MSPDFBuilderTHn::~MSPDFBuilderTHn()
 {
-  for (auto im : *fHistMap) delete im.second;
-  fHistMap->clear();
-  delete fHistMap;
+   if (fHistMap != nullptr) {
+      for (auto im : *fHistMap) delete im.second;
+      fHistMap->clear();
+      delete fHistMap;
+   }
 
-  if (fTmpPDF) delete fTmpPDF;
+   delete fTmpPDF;
 }
 
 void MSPDFBuilderTHn::LoadHist(const std::string& fileName, 
