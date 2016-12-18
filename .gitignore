@@ -28,8 +28,8 @@ m4/ltversion.m4
 /stamp-h1
 
 /*.pc
+/*.db
 /*-config
-
 
 /src/Makefile
 /src/Makefile.in

@@ -82,7 +82,7 @@ class MSDataSet : public MSObject
 
    private:
       //! Pointer to the vector of data points
-      MSDataPointVector* fVector;
+      MSDataPointVector* fVector {nullptr};
 };
 
 } // namespace mst

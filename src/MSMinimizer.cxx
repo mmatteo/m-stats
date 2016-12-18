@@ -26,14 +26,8 @@ const bool rootWrapper = false;
 
 MSMinimizer* MSMinimizer::global_pointer = 0;
 
-MSMinimizer::MSMinimizer(const std::string& name) : MSObject(name),
-   fModelVector(0), fGlobalParMap(0), fLocalParMap(0),
-   fMinuit(0), fMinuitErrorFlag(0), fNMigradFails(0),
-   fMinuitMaxCalls(2000), fMinuitTollerance(1e-6),
-   fMinNLL(0.0), fEDM(0.0), fCovQual(0)
+MSMinimizer::MSMinimizer(const std::string& name) : MSObject(name)
 {
-   fMinuitArglist[0] = 0;
-   fMinuitArglist[1] = 0;
    fModelVector = new MSModelVector();
    fLocalParMap = new MSParameterMap();
 }
@@ -41,24 +35,16 @@ MSMinimizer::MSMinimizer(const std::string& name) : MSObject(name),
 MSMinimizer::~MSMinimizer()
 {
    if (fModelVector) {
-      for (size_t i = 0; i < fModelVector->size(); i++)
-         delete fModelVector->at(i);
+      for (auto& i : *fModelVector) delete i;
       delete fModelVector;
-      fModelVector   = 0;
    }
 
    if (fLocalParMap) {
-      for (MSParameterMap::iterator it = fLocalParMap->begin();
-            it != fLocalParMap->end(); ++it)
-         delete it->second;
+      for (auto& it : *fLocalParMap) delete it.second;
       delete fLocalParMap;
-      fLocalParMap = 0;
    }
 
-   if (fMinuit) {
-      delete fMinuit;
-      fMinuit = 0;
-   }
+   delete fMinuit;
 }
 
 TMinuit* MSMinimizer::InitializeMinuit()
@@ -76,7 +62,7 @@ TMinuit* MSMinimizer::InitializeMinuit()
    fGlobalParMap = fModelVector->at(0)->GetParameters();
 
    // Initiazlie minuit
-   if (fMinuit) delete fMinuit;
+   delete fMinuit;
    fMinuit = new TMinuit(fGlobalParMap->size());
    fMinuit->SetFCN(&MSMinimizer::FCNNLLLikelihood);
 
@@ -254,11 +240,9 @@ void MSMinimizer::Minimize(const std::string& minimizer, bool resetFitStartValue
 void MSMinimizer::FCNNLLLikelihood(int & /*npar*/, double * /*grad*/,
       double &fval, double * par, int /*flag*/)
 {
-   fval = 0.0 ;
+   fval = 0.0;
    MSModelVector* modelVector = global_pointer->fModelVector;
-
-   for (unsigned int i = 0; i < modelVector->size(); i++)
-      fval += modelVector->at(i)->NLogLikelihood(par);
+   for (const auto& i : *modelVector) fval += i->NLogLikelihood(par);
 }
 
 } // namespace mst

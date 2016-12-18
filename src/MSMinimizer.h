@@ -146,36 +146,36 @@ class MSMinimizer : public MSObject
       static MSMinimizer* global_pointer;
 
       //! Pointer to the model
-      MSModelVector* fModelVector;
+      MSModelVector* fModelVector {nullptr};
       //! Pointer to the global parameter map
-      MSParameterMap* fGlobalParMap;
+      MSParameterMap* fGlobalParMap {nullptr};
       //! Pointer to a local copy of the parameter map
-      MSParameterMap* fLocalParMap;
+      MSParameterMap* fLocalParMap {nullptr};
 
       //! Pointer to minuit
-      TMinuit* fMinuit;
+      TMinuit* fMinuit {nullptr};
       //! Argument list used by minuit functions
-      double fMinuitArglist[2];
+      double fMinuitArglist[2] {0.0,0.0};
       //! Error flag used by minuit functions
-      int fMinuitErrorFlag;
+      int fMinuitErrorFlag {0};
       //! Number of times migrad returned an error flag
-      int fNMigradFails;
+      int fNMigradFails {0};
 
       //! Maximum interations of minuit during minimization
-      int fMinuitMaxCalls;
+      int fMinuitMaxCalls {2000};
 
       //! Tolerance on the maximum error during minimization
-      double fMinuitTollerance;
+      double fMinuitTollerance {1e-6};
 
       //! Minimum of the negative log likelihood function
       //! Synced with mnstat-fmin
       //!    "the best function value found so far"
-      double fMinNLL;
+      double fMinNLL {0.0};
 
       //! Distance from minumum
       //! Synced with mnstat-fedm:
       //!    "the estimated vertical distance remaining to minimum"
-      double fEDM;
+      double fEDM {0.0};
 
       //! minuit quality code of covariance matrix
       //! synced with mnstat-istat:
@@ -184,7 +184,7 @@ class MSMinimizer : public MSObject
       //!     1 = approximation only, not accurate
       //!     2 = full matrix, but forced positive-definite
       //!     3 = full accurate covariance matrix
-      int fCovQual;
+      int fCovQual {0};
 };
 
 } // namespace mst

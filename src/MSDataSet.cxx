@@ -19,7 +19,7 @@
 
 namespace mst {
 
-MSDataSet::MSDataSet(const std::string& name) : MSObject(name), fVector(nullptr)
+MSDataSet::MSDataSet(const std::string& name) : MSObject(name)
 {
    fVector = new MSDataPointVector();
 }

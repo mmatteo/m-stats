@@ -141,8 +141,8 @@ class MSModelT: public MSModel {
       const T* fDataSet {nullptr}; 
 };
 
-using MSModelTHn = MSModelT<THn>;
-using MSModelDataSet = MSModelT<MSDataSet>;
+using MSModelTHn    = MSModelT<THn>;
+using MSModelDPV = MSModelT<MSDataPointVector>;
 
 } // namespace mst
 

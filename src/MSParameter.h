@@ -45,7 +45,7 @@ class MSParameter : public MSObject
 {
    public:
       //! Constructor
-      MSParameter(const std::string& name = "", double rangeMin=0, double rangeMax=0);
+      MSParameter(const std::string& name = "");
       //! Destructor
       virtual ~MSParameter();
 
@@ -192,33 +192,36 @@ class MSParameter : public MSObject
 
    private:
       //! Flag storing the type of parameter
-      EMSParameterType fParameterType;
+      EMSParameterType fParameterType {EMSParameterType::kTypeUndefined};
       //! Flag of type of variable used to represent the parameter
-      EMSVariableType fVariableType;
+      EMSVariableType fVariableType {EMSVariableType::kVarUndefined};
 
       //! Flag identifying fixed parameter
-      bool fFixed;
+      bool fFixed {false};
       //! Flag identifying global parameter
-      bool fGlobal;
+      bool fGlobal {false};
 
       //! Range edges set
-      bool fRangeMinSet, fRangeMaxSet;
+      bool fRangeMinSet {false}, fRangeMaxSet {false};
       //! Range edges value
-      double fRangeMin, fRangeMax;
+      double fRangeMin {0.0}, fRangeMax {0.0};
 
       //! Temporary starting value for the fit
-      double fFitStartValue;
+      double fFitStartValue {0.0};
       //! Temporary starting value for the fit set
-      bool fFitStartValueSet;
+      bool fFitStartValueSet {false};
       //! Default starting value for the fit
-      double fFitStartValueDefault;
+      double fFitStartValueDefault {0.0};
       //! Default starting value for the fit set
-      bool fFitStartValueSetDefault;
+      bool fFitStartValueSetDefault {false};
       //! Starting fit steps
-      double fFitStartStep;
+      double fFitStartStep {0.1};
 
       //! Fit results
-      double fFitBestValue, fFitBestValueErr, fFitLowerLimit, fFitUpperLimit;
+      double fFitBestValue    {0.0}, 
+             fFitBestValueErr {0.0}, 
+             fFitLowerLimit   {0.0}, 
+             fFitUpperLimit   {0.0};
 
 };
 
