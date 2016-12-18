@@ -8,7 +8,6 @@ lib_LTLIBRARIES = libm-stats.la
 libm_stats_la_SOURCES = \
 	MSConfig.cxx \
 	MSDataPoint.cxx \
-	MSDataSet.cxx \
 	MSMath.cxx \
 	MSMinimizer.cxx \
 	MSModel.cxx \
@@ -20,7 +19,6 @@ libm_stats_la_SOURCES = \
 libm_stats_la_headers = \
 	MSConfig.h \
 	MSDataPoint.h \
-	MSDataSet.h \
 	MSMath.h \
 	MSMinimizer.h \
 	MSModel.h \

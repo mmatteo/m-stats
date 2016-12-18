@@ -33,7 +33,7 @@
 
 #include "MSObject.h"
 #include "MSParameter.h"
-#include "MSDataSet.h"
+#include "MSDataPoint.h"
 
 #include <vector>
 
