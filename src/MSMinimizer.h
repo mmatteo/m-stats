@@ -31,7 +31,6 @@
 #define MST_MSMinimizer_H
 
 #include "MSObject.h"
-
 #include "MSModel.h"
 
 // root libs
