@@ -83,9 +83,7 @@ class MSPDFBuilderTHn : public MSObject
    void AddHistToPDF(const std::string& histName, double scaling = 1);
 
    //! Set Seed
-   void SetSeed(unsigned int seed) {
-      delete gRandom; gRandom = new TRandom3(seed);
-   }
+   void SetSeed(unsigned int seed) { fRnd = new TRandom3(seed); }
 
    //! Reset tmp PDF 
    void ResetPDF() { if (fTmpPDF) fTmpPDF->Reset(); }
@@ -100,6 +98,7 @@ class MSPDFBuilderTHn : public MSObject
    // Map of histograms
    HistMap* fHistMap {nullptr};
    THn*     fTmpPDF  {nullptr};
+   TRandom* fRnd     {nullptr};
 };
 
 } // namespace mst
