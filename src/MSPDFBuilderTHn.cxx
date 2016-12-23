@@ -41,6 +41,7 @@ MSPDFBuilderTHn::~MSPDFBuilderTHn()
    }
 
    delete fTmpPDF;
+   delete fRnd;
 }
 
 void MSPDFBuilderTHn::LoadHist(const std::string& fileName, 
@@ -158,6 +159,13 @@ THn* MSPDFBuilderTHn::GetPDF (const std::string& objName) {
 
 
 THn* MSPDFBuilderTHn::GetMCRealizaton(int ctsNum, bool addPoissonFluctuation) {
+   // set internal random number generator if set
+   TRandom* rndTmpCopy = nullptr;
+   if (fRnd != nullptr)  {
+      rndTmpCopy = gRandom;
+      gRandom = fRnd;
+   }
+
    // optinally add Poission fluctuatoins on the number of cts
    if (addPoissonFluctuation) {
       ctsNum = gRandom->Poisson(ctsNum);
@@ -193,6 +201,7 @@ THn* MSPDFBuilderTHn::GetMCRealizaton(int ctsNum, bool addPoissonFluctuation) {
       realization->Fill(rndPoint);
    }
 
+   if (rndTmpCopy != nullptr) gRandom = rndTmpCopy;
    return realization;
 }
 
