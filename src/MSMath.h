@@ -29,16 +29,17 @@
 #ifndef MST_MSMath_H
 #define MST_MSMath_H
 
-
-// c++ libs
-
 namespace mst {
-   namespace MSMath {
 
-      double LogGaus   (double x, double mean, double sigma);
-      double LogPoisson (double x, double lambda);
+namespace MSMath {
 
-   } // namespace MSMath
+   //! Log of a Gaussian distribution
+   double LogGaus   (double x, double mean, double sigma);
+   //! Log of a Poissonian distribution
+   double LogPoisson (double x, double lambda);
+
+} // namespace MSMath
+
 } // namespace mst
 
 #endif // MST_MSMath_H

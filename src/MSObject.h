@@ -26,11 +26,10 @@
  * \author Matteo Agostini
  */
 
-
 #ifndef MST_MSObject_H
 #define MST_MSObject_H
 
-// c++ libs
+// c/c++ libs
 #include <string>
 
 namespace mst {

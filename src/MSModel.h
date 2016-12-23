@@ -21,23 +21,27 @@
  * Base class for all analysis modules.
  *
  * \details 
- * Pure virutal class providing a general interace for  all analysis models. 
- * It provides virtual functions to be used by the minimizer.
+ * MSModel is a pure virutal class providing a general interace for  all 
+ * analysis models. It provides virtual functions to be used by the minimizer.
+ * 
+ * MSModelDataSet...
  *
  * \author Matteo Agostini
  */
 
-
 #ifndef MST_MSModel_H
 #define MST_MSModel_H
 
-#include "MSObject.h"
-#include "MSParameter.h"
-#include "MSDataPoint.h"
-
+// c/c++ libs
 #include <vector>
 
+// ROOT libs
 #include <THn.h>
+
+// m-stats libs
+#include "MSDataPoint.h"
+#include "MSObject.h"
+#include "MSParameter.h"
 
 namespace mst {
 
@@ -111,16 +115,16 @@ class MSModel : public MSObject
       //! names of the parameters registered from an instance of the class
       std::vector<std::string>* fParNameList {nullptr};
       //! Exposure of the data set
-      double fExposure = 0;
+      double fExposure = 0.0;
 };
 
-using MSModelVector = std::vector<MSModel*>;
-
 template <typename T>
-class MSModelT: public MSModel {
+class MSModelDataSet: public MSModel {
    public:
-      MSModelT(const std::string& name = ""): MSModel(name), fDataSet(nullptr) {}
-      virtual ~MSModelT() { delete fDataSet; }
+      //! Constructor
+      MSModelDataSet(const std::string& name = ""): MSModel(name) {}
+      //! Destructor
+      virtual ~MSModelDataSet() { delete fDataSet; }
 
       //! Virtual function from MSModel.
       //! To be overloaded in the concrete analysis module.
@@ -141,8 +145,9 @@ class MSModelT: public MSModel {
       const T* fDataSet {nullptr}; 
 };
 
-using MSModelTHn = MSModelT<THn>;
-using MSModelDPV = MSModelT<MSDataPointVector>;
+using MSModelVector = std::vector<MSModel*>;
+using MSModelTHn = MSModelDataSet<THn>;
+using MSModelDPV = MSModelDataSet<MSDataPointVector>;
 
 } // namespace mst
 

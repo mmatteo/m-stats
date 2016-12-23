@@ -21,8 +21,9 @@
  * Data point info
  *
  * \details 
- * Class storing all info concerning a data point. All observables measured 
- * are stored into a std::map.
+ * Class storing multiple info concerning a data point. All observables measured 
+ * are stored into a std::map. This container is designed for analysis not based
+ * on histograms, typically unbinned fits.
  *
  * \author Matteo Agostini
  */
@@ -30,12 +31,13 @@
 #ifndef MST_MSDataPoint_H
 #define MST_MSDataPoint_H
 
-#include "MSObject.h"
-
-// c++ libs
-#include <string>
+// c/c++ libs
 #include <map>
+#include <string>
 #include <vector>
+
+// m-stats libs
+#include "MSObject.h"
 
 namespace mst {
 
@@ -74,7 +76,7 @@ class MSDataPoint : public MSObject
 
    private:
       //! Pointer to the map
-      MSDataPointMap* fMap;
+      MSDataPointMap* fMap {nullptr};
 };
 
 //! Type defining a vector of dataPoint. Used to create a dataset

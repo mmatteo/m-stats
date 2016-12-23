@@ -14,24 +14,27 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-
-#include "MSMath.h"
-
 // c++ libs
-#include <limits>
-#include <math.h>
 #include <iostream>
+#include <limits>
+#include <cmath>
 #include <vector>
 
 // ROOT libs
 #include <TMath.h>
 
+// m-stats libs
+#include "MSMath.h"
+
 namespace mst {
 
 double MSMath::LogGaus(double x, double mean, double sigma) {
-   if (sigma <= 0.0) 
+   // sigma must be positive
+   if (sigma <= 0.0) {
       std::cerr << "MSMath::LogGaus >> error: sigma must be positive\n";
-   double dx = (x - mean) / sigma;
+      return 0;
+   }
+   const double dx = (x - mean) / sigma;
    return -0.5*dx*dx - 0.5*log(2*M_PI) - log(sigma);
 }
 

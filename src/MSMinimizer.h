@@ -26,15 +26,15 @@
  * \author Matteo Agostini
  */
 
-
 #ifndef MST_MSMinimizer_H
 #define MST_MSMinimizer_H
 
-#include "MSObject.h"
-#include "MSModel.h"
-
-// root libs
+// ROOT libs
 #include <TMinuit.h>
+
+// m-stats libs
+#include "MSModel.h"
+#include "MSObject.h"
 
 namespace mst {
 
@@ -68,8 +68,7 @@ class MSMinimizer : public MSObject
 
       //! Print summary of the parameters
       void PrintParSummary() const {
-         for (MSParameterMap::iterator it = fGlobalParMap->begin();
-               it != fGlobalParMap->end(); ++it) it->second->PrintSummary();
+         for (const auto& it : *fGlobalParMap) it.second->PrintSummary();
       }
 
 

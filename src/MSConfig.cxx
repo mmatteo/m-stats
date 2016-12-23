@@ -14,17 +14,17 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-
-#include "MSConfig.h"
-
-// c++ libs
+// c/c++ libs
+#include <cstdlib>
 #include <iomanip>
 #include <iostream>
-#include <cstdlib>
+
+// m-stats libs
+#include "MSConfig.h"
 
 namespace mst {
 
-MSConfig::MSConfig(const std::string& name): MSObject(name), fConfMap(nullptr)
+MSConfig::MSConfig(const std::string& name): MSObject(name)
 {
    fConfMap = new MSConfigMap();
 }
@@ -95,15 +95,11 @@ std::string MSConfig::GetSubSetName(unsigned int index) const
 
 void MSConfig::PrintSummary()
 {
-   for (MSConfigMap::const_iterator it = fConfMap->begin();
-         it != fConfMap->end(); ++it) {
-      for (MSConfigSubSetMap::const_iterator itSubSet = it->second->begin();
-            itSubSet != it->second->end(); ++itSubSet) {
-         std::cout << it->first
-                   << "."  << itSubSet->first << " = "
-                   << itSubSet->second << std::endl;
-      }
-   }
+   for (const auto& it : *fConfMap) 
+      for (const auto& itSubSet : *(it.second)) 
+         std::cout << it.first
+                   << "."  << itSubSet.first << " = "
+                   << itSubSet.second << std::endl;
 }
 
 } // namespace mst

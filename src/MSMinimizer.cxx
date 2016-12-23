@@ -14,15 +14,13 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+// root libs
+#include <TString.h>
 
+// m-stats libs
 #include "MSMinimizer.h"
 
-// root libs
-#include "TString.h"
-
 namespace mst {
-
-const bool rootWrapper = false;
 
 MSMinimizer* MSMinimizer::global_pointer = 0;
 

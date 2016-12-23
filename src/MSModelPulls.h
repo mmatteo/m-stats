@@ -14,7 +14,6 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-
 /*!
  * \class mst::MSModelPullGaus
  *
@@ -27,10 +26,10 @@
  * \author Matteo Agostini
  */
 
-
 #ifndef MST_MSModelPullGaus_H
 #define MST_MSModelPullGaus_H
 
+// m-stats libs
 #include "MSModel.h"
 
 namespace mst {
@@ -83,8 +82,8 @@ class MSModelPullGaus : public mst::MSModelPull
       void SetGaussPar (double c, double s) { SetCentroid(c); SetSigma(s); }
 
    public:
-      double fCentroid {0};
-      double fSigma {0};
+      double fCentroid {0.0};
+      double fSigma {0.0};
 };
 
 } // namespace mst

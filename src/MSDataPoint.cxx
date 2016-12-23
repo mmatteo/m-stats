@@ -14,16 +14,16 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-
-#include "MSDataPoint.h"
-
-// c++ libs
-#include<iostream>
+// c/c++ libs
 #include<iomanip>
+#include<iostream>
+
+// m-stats libs
+#include "MSDataPoint.h"
 
 namespace mst {
 
-MSDataPoint::MSDataPoint(const std::string& name) : MSObject(name), fMap(nullptr)
+MSDataPoint::MSDataPoint(const std::string& name) : MSObject(name)
 {
   fMap = new MSDataPointMap();
 }
@@ -36,7 +36,8 @@ MSDataPoint::~MSDataPoint()
 void MSDataPoint::Print() const
 {
    for (const auto& it : *fMap)
-       std::cout << "  " << it.first << ": " << std::setw(8) << it.second;
+       std::cout << "  " << it.first << ": " 
+                 << std::setw(8) << it.second;
 
    std::cout << std::endl;
 

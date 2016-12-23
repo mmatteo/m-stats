@@ -14,12 +14,11 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-
-#include "MSModelTHnBMLF.h"
+// m-stats libs
 #include "MSMath.h"
+#include "MSModelTHnBMLF.h"
 
 namespace mst {
-
 
 MSModelTHnBMLF::MSModelTHnBMLF(const std::string& name) : MSModelTHn(name)
 {

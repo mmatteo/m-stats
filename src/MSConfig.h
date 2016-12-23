@@ -33,11 +33,12 @@
 #ifndef MST_MSConfig_H
 #define MST_MSConfig_H
 
-#include "MSObject.h"
-
-// c++ libs
-#include<string>
+// c/c++ libs
 #include<map>
+#include<string>
+
+// m-stats libs
+#include "MSObject.h"
 
 namespace mst {
 
@@ -59,7 +60,7 @@ class MSConfig : public MSObject
       using MSConfigMap  = std::map <std::string, MSConfigSubSetMap*>;
 
       //! Set Parameter value in the specify subSet
-      bool   SetPar(const std::string& subSetName, const std::string& parName, double val);
+      bool SetPar(const std::string& subSetName, const std::string& parName, double val);
       //! Get Parameter value in the specify subSet
       double GetPar(const std::string& subSetName, const std::string& parName) const;
 
@@ -84,7 +85,7 @@ class MSConfig : public MSObject
 
    private:
       //! Pointer the the map
-      MSConfigMap* fConfMap;
+      MSConfigMap* fConfMap {nullptr};
 };
 
 } // namespace mst
