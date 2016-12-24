@@ -20,15 +20,6 @@
 
 namespace mst {
 
-MSModelTHnBMLF::MSModelTHnBMLF(const std::string& name) : MSModelTHn(name)
-{
-}
-
-MSModelTHnBMLF::~MSModelTHnBMLF()
-{
-   delete fPDFBuilder;
-}
-
 double MSModelTHnBMLF::NLogLikelihood(double* par)
 {
    fPDFBuilder->ResetPDF();

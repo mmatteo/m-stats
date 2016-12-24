@@ -11,8 +11,6 @@
 #pragma link C++ class mst::MSPDFBuilderTHn-;
 #pragma link C++ class mst::MSParameter-;
 #pragma link C++ class mst::MSModel-;
-#pragma link C++ class mst::MSModelDPV-;
-#pragma link C++ class mst::MSModelTHn-;
 #pragma link C++ class mst::MSModelTHnBMLF-;
 #pragma link C++ class mst::MSModelPullGaus-;
 #pragma link C++ class mst::MSMinimizer-;

@@ -24,7 +24,7 @@
  * MSModel is a pure virutal class providing a general interace for  all 
  * analysis models. It provides virtual functions to be used by the minimizer.
  * 
- * MSModelDataSet...
+ * MSModelT...
  *
  * \author Matteo Agostini
  */
@@ -35,11 +35,7 @@
 // c/c++ libs
 #include <vector>
 
-// ROOT libs
-#include <THn.h>
-
 // m-stats libs
-#include "MSDataPoint.h"
 #include "MSObject.h"
 #include "MSParameter.h"
 
@@ -118,36 +114,38 @@ class MSModel : public MSObject
       double fExposure = 0.0;
 };
 
-template <typename T>
-class MSModelDataSet: public MSModel {
+// Template class inheriting from MSModel to handle a data set and pdfBuilder
+template <typename TData, typename TPDF>
+class MSModelT: public MSModel {
    public:
       //! Constructor
-      MSModelDataSet(const std::string& name = ""): MSModel(name) {}
+      MSModelT(const std::string& name = ""): MSModel(name) {}
       //! Destructor
-      virtual ~MSModelDataSet() { delete fDataSet; }
+      virtual ~MSModelT() { delete fDataSet; delete fPDFBuilder;}
 
       //! Virtual function from MSModel.
       //! To be overloaded in the concrete analysis module.
       virtual void InitializeParameters() = 0;
-
       //! Virtual function from MSModel to be overloaded in the concrete class
       //! To be overloaded in the concrete analysis module.
       virtual double NLogLikelihood(double* par) = 0;
 
       //! Set data set 
-      void SetDataSet(T* dataSet) { delete fDataSet; fDataSet = dataSet; }
-
+      void SetDataSet(TData* dataSet) { delete fDataSet; fDataSet = dataSet; }
       //! Get pointer to the data set
-      const T* GetDataSet() const { return fDataSet; }
+      const TData* GetDataSet() const { return fDataSet; }
+
+      //! Set pdf builder
+      void SetPDFBuilder(TPDF* pdf) {delete fPDFBuilder; fPDFBuilder = pdf;}
+      //! Get the pointer to the pdf builder
+      TPDF* GetPDFBuilder() const {return fPDFBuilder;}
 
    protected:
-      //! pointer to the data set
-      const T* fDataSet {nullptr}; 
+      //! pointer to the data set 
+      const TData* fDataSet {nullptr}; 
+      //! Pointer to PDFBuilder
+      TPDF* fPDFBuilder {nullptr};
 };
-
-using MSModelVector = std::vector<MSModel*>;
-using MSModelTHn = MSModelDataSet<THn>;
-using MSModelDPV = MSModelDataSet<MSDataPointVector>;
 
 } // namespace mst
 

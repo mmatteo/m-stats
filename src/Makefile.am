@@ -19,6 +19,7 @@ libm_stats_la_SOURCES = \
 libm_stats_la_headers = \
 	MSConfig.h \
 	MSDataPoint.h \
+	MSDataPointVector.h \
 	MSMath.h \
 	MSMinimizer.h \
 	MSModel.h \

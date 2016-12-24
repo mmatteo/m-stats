@@ -38,13 +38,13 @@
 
 namespace mst {
 
-class MSModelTHnBMLF : public MSModelTHn
+class MSModelTHnBMLF : public MSModelT<THn,MSPDFBuilderTHn>
 {
    public:
       //! Constructor
-      MSModelTHnBMLF(const std::string& name = "");
+      MSModelTHnBMLF(const std::string& name = ""): MSModelT(name) {}
       //! Destructor
-      virtual ~MSModelTHnBMLF();
+      virtual ~MSModelTHnBMLF() {}
 
       //! Function used for initializing the model parameters
       void InitializeParameters() override {}
@@ -52,16 +52,6 @@ class MSModelTHnBMLF : public MSModelTHn
       //! function returning the negative log likelihood function to be 
       //! minimized (-2LL)
       double NLogLikelihood(double* par) override;
-
-      //! Associate to the module the pointer the PDFBuilder.
-      //! The function does not move the ownership of the object
-      void SetPDFBuilder(MSPDFBuilderTHn* builder) {fPDFBuilder = builder;}
-      //! Get the pointer to the PDFBuilder.
-      MSPDFBuilderTHn* GetPDFBuilder() const {return fPDFBuilder;}
-
-   protected:
-      //! Pointer to PDFBuilder
-      MSPDFBuilderTHn* fPDFBuilder {nullptr};
 };
 
 } // namespace mst

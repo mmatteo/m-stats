@@ -41,6 +41,10 @@ namespace mst {
 class MSMinimizer : public MSObject
 {
    public:
+      //! Type defining a vector of Models used as class member
+      using MSModelVector = std::vector<MSModel*>;
+
+   public:
       //! Constructor
       MSMinimizer(const std::string& name = "");
       //! Desstructor
