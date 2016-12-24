@@ -102,7 +102,7 @@ double MSMath::LogExp (double x, double limit, double quantile, double offset) {
    // compute LogExp
    } else {
       const double a = -log(1.0-quantile)/(limit-offset);
-      return  -2*(log(a)-a*(x-offset));
+      return  log(a)-a*(x-offset);
    }
 }
 }

@@ -125,10 +125,10 @@ class MSModelT: public MSModel {
 
       //! Virtual function from MSModel.
       //! To be overloaded in the concrete analysis module.
-      virtual void InitializeParameters() = 0;
+      virtual void InitializeParameters() override = 0;
       //! Virtual function from MSModel to be overloaded in the concrete class
       //! To be overloaded in the concrete analysis module.
-      virtual double NLogLikelihood(double* par) = 0;
+      virtual double NLogLikelihood(double* par) override = 0;
 
       //! Set data set 
       void SetDataSet(TData* dataSet) { delete fDataSet; fDataSet = dataSet; }

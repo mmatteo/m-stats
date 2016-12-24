@@ -43,10 +43,10 @@ class MSModelPull : public mst::MSModel
       virtual ~MSModelPull() {}
 
       //! Function used for initializing the model parameters
-      void InitializeParameters() = 0;
+      void InitializeParameters() override {}
       //! function returning the negative log likelihood function to be 
       //! minimized (-2LL)
-      double NLogLikelihood(double* par) = 0 ;
+      double NLogLikelihood(double* par) override = 0;
 
       //! Set parameter to pull
       void SetPullPar (const std::string& par) { fPullPar = par;}
@@ -65,8 +65,6 @@ class MSModelPullGaus : public mst::MSModelPull
       //! Destructor
       virtual ~MSModelPullGaus() {}
 
-      //! Function used for initializing the model parameters
-      void InitializeParameters() override;
       //! function returning the negative log likelihood function to be 
       //! minimized (-2LL)
       double NLogLikelihood(double* par) override;
@@ -94,8 +92,6 @@ class MSModelPullExp : public mst::MSModelPull
       //! Destructor
       virtual ~MSModelPullExp() {}
 
-      //! Function used for initializing the model parameters
-      void InitializeParameters() override;
       //! function returning the negative log likelihood function to be 
       //! minimized (-2LL)
       double NLogLikelihood(double* par) override;
@@ -107,13 +103,13 @@ class MSModelPullExp : public mst::MSModelPull
       }
       //! Set quantile
       void SetQuantile (double quantile) {
-         if (fQuantile > 0.0 && fQuantile < 1.0) fQuantile = quantile;
-         else std::cerr << "BXModelGauss >> error: quantile must be positive.\n";
+         if (quantile > 0.0 && quantile < 1.0) fQuantile = quantile;
+         else std::cerr << "BXModelExp >> error: quantile must be positive.\n";
       }
       //! Set offset
       void SetOffset (double offset) {
-         if (offset > 0) fOffset = offset;
-         else std::cerr << "BXModelGauss >> error: offset must be positive.\n";
+         if (offset >= 0) fOffset = offset;
+         else std::cerr << "BXModelExp >> error: offset must be positive.\n";
       }
 
       //! Set all gaussian parameters
