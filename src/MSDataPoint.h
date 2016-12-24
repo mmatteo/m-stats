@@ -79,9 +79,6 @@ class MSDataPoint : public MSObject
       MSDataPointMap* fMap {nullptr};
 };
 
-//! Type defining a vector of dataPoint. Used to create a dataset
-using MSDataPointVector = std::vector<MSDataPoint*>;
-
 } // namespace mst
 
 #endif // MST_MSDataPoint_H
