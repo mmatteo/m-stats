@@ -86,6 +86,46 @@ class MSModelPullGaus : public mst::MSModelPull
       double fSigma {0.0};
 };
 
+class MSModelPullExp : public mst::MSModelPull
+{
+   public:
+      //! Constructor
+      MSModelPullExp(const std::string& name = ""): MSModelPull(name) {}
+      //! Destructor
+      virtual ~MSModelPullExp() {}
+
+      //! Function used for initializing the model parameters
+      void InitializeParameters() override;
+      //! function returning the negative log likelihood function to be 
+      //! minimized (-2LL)
+      double NLogLikelihood(double* par) override;
+
+      //! Set limit
+      void SetLimit (double limit) {
+         if (limit > 0) fLimit = limit;
+         else std::cerr << "BXModelExp >> error: limit must be positive.\n";
+      }
+      //! Set quantile
+      void SetQuantile (double quantile) {
+         if (fQuantile > 0.0 && fQuantile < 1.0) fQuantile = quantile;
+         else std::cerr << "BXModelGauss >> error: quantile must be positive.\n";
+      }
+      //! Set offset
+      void SetOffset (double offset) {
+         if (offset > 0) fOffset = offset;
+         else std::cerr << "BXModelGauss >> error: offset must be positive.\n";
+      }
+
+      //! Set all gaussian parameters
+      void SetExpPar (double limit, double quantile = .9, double offset = 0.0) { 
+         SetLimit(limit); SetQuantile(quantile); SetOffset(offset);
+      }
+
+   public:
+      double fLimit    {0.0};
+      double fQuantile {0.0};
+      double fOffset   {0.0};
+};
 } // namespace mst
 
 #endif //MST_MSModelPullGaus_H

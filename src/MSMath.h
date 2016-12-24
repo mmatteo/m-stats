@@ -34,9 +34,11 @@ namespace mst {
 namespace MSMath {
 
    //! Log of a Gaussian distribution
-   double LogGaus   (double x, double mean, double sigma);
+   double LogGaus (double x, double mean, double sigma);
    //! Log of a Poissonian distribution
    double LogPoisson (double x, double lambda);
+   //! Log of an exponential distribution
+   double LogExp (double x, double limit, double quantile=.9, double offset =0);
 
 } // namespace MSMath
 

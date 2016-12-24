@@ -61,4 +61,48 @@ double MSMath::LogPoisson(double x, double lambda) {
    }
 }
 
+double MSMath::LogExp (double x, double limit, double quantile, double offset) {
+   // the expoential function should be normalized in the range [offset, inf] and
+   // have the quantile corresponding to the desidered probablity at the limit
+   // value.
+   //
+   // Starting from the standard exp function normalized betweeen 0 and inf:
+   //
+   //    f(x) = a*exp(-a*x)
+   //
+   // the parameter a is hence fixed by:
+   //
+   //    int _0 ^limit f(x) dx = quantile
+   //    => a = -ln(1-quantile)/limit
+   //
+   // and final the frame must be changed such that 0->offset
+   //
+   //   => a = -ln(1-quantile)/(limit-offset)
+   //   f(x) = a * exp(-a* (x-offset))
+
+
+   // Check that the quantile is in the range ]0,1[
+   if (quantile <= 0.0 && quantile >= 1.0) { 
+      std::cerr << "MSMath::Logexp >> error: "
+                << "quantile must be >0 && <1\n";
+      return std::numeric_limits<double>::quiet_NaN();
+
+   // Check that the limit is above the offset
+   } else if (limit <= offset) {
+      std::cerr << "MSModelPullExp >> error: "
+                << "the limit must be larger than the offset\n";
+      return std::numeric_limits<double>::quiet_NaN();
+
+   // Check that the parameter is in the physical range
+   } else if (x < offset) {
+      std::cerr << "MSMath::Logexp >> error: "
+                << "parameter must be larger than the offset\n";
+      return std::numeric_limits<double>::quiet_NaN();
+
+   // compute LogExp
+   } else {
+      const double a = -log(1.0-quantile)/(limit-offset);
+      return  -2*(log(a)-a*(x-offset));
+   }
+}
 }
