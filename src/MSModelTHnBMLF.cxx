@@ -50,7 +50,7 @@ double MSModelTHnBMLF::NLogLikelihood(double* par)
 
    delete pdf;
    delete it;
-   return -2.0*nLogLikelihood;
+   return (-nLogLikelihood);
 }
 
 } // namespace mst

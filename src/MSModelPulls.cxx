@@ -24,14 +24,14 @@ namespace mst {
 double MSModelPullGaus::NLogLikelihood(double* par)
 {
    const double x = GetMinuitParameter(par, fPullPar.c_str());
-   return  -2 * mst::MSMath::LogGaus(x, fCentroid, fSigma);
+   return  (-mst::MSMath::LogGaus(x, fCentroid, fSigma));
 }
 
 
 double MSModelPullExp::NLogLikelihood(double* par)
 {
    const double x = GetMinuitParameter(par, fPullPar.c_str());
-   return  -2 * mst::MSMath::LogExp(x,fLimit, fQuantile, fOffset);
+   return  (-mst::MSMath::LogExp(x,fLimit, fQuantile, fOffset));
 }
 
 } // namespace mst
