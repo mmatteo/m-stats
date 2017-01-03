@@ -44,13 +44,13 @@ double MSMath::LogPoisson(double x, double lambda) {
    if (lambda < 0.0 || x < 0.0) {
       std::cerr << "MSMath::LogPoisson >> error: "
                 << "function not defined for negative parameters\n";
-      return std::numeric_limits<double>::quiet_NaN();
+      return -std::numeric_limits<double>::infinity();
    } 
 
    // The expectation must be positive. Empty bins in the PSD should be avoided
    else if (lambda == 0.0) {
       if (x == 0) return 0;
-      else        return std::numeric_limits<double>::quiet_NaN();
+      else        return -std::numeric_limits<double>::infinity();
    }
 
    // Copute Poission probability for positive lambda values
