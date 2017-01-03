@@ -193,11 +193,11 @@ THn* MSPDFBuilderTHn::GetMCRealizaton(int ctsNum, bool addPoissonFluctuation) {
    // Fill realizations using n-dimensional method
    // Note that GetRandom works on the full range of the histograms and cannot
    // be limited to the user range. That's not a problem since the sampling MUST
-   // be done on all histogram range (including over- and under-shot) in order
-   // to preserve the the actual rate
+   // be done on all histogram range in order to preserve the the actual rate.
+   // Note that over- and under-flow bins are not considered
    Double_t rndPoint[dim];
    for ( int j = 0; j < ctsNum; j++ ) {
-      fTmpPDF->GetRandom(rndPoint);
+      fTmpPDF->GetRandom(rndPoint, kFALSE);
       realization->Fill(rndPoint);
    }
 
