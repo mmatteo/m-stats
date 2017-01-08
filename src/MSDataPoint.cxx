@@ -40,7 +40,6 @@ void MSDataPoint::Print() const
                  << std::setw(8) << it.second;
 
    std::cout << std::endl;
-
 }
 
 } // namespace mst

@@ -32,13 +32,16 @@
 #ifndef MST_MSModelTHnBMLF_H
 #define MST_MSModelTHnBMLF_H
 
+// ROOT libs
+#include <THnBase.h>
+
 // m-stats libs
 #include "MSModel.h"
 #include "MSPDFBuilderTHn.h"
 
 namespace mst {
 
-class MSModelTHnBMLF : public MSModelT<THn,MSPDFBuilderTHn>
+class MSModelTHnBMLF : public MSModelT<THnBase,MSPDFBuilderTHn>
 {
    public:
       //! Constructor
@@ -46,11 +49,8 @@ class MSModelTHnBMLF : public MSModelT<THn,MSPDFBuilderTHn>
       //! Destructor
       virtual ~MSModelTHnBMLF() {}
 
-      //! Function used for initializing the model parameters
-      void InitializeParameters() override {}
-
       //! function returning the negative log likelihood function to be 
-      //! minimized (-2LL)
+      //! minimized (NLL)
       double NLogLikelihood(double* par) override;
 };
 

@@ -18,7 +18,7 @@
  * \class mst::MSModelPullGaus
  *
  * \brief
- * basic model to add pull terms to a global parameter
+ * Virtual model implementing pull/penalty terms and derived classes
  * 
  * \details 
  * 
@@ -42,10 +42,8 @@ class MSModelPull : public mst::MSModel
       //! Destructor
       virtual ~MSModelPull() {}
 
-      //! Function used for initializing the model parameters
-      void InitializeParameters() override {}
       //! function returning the negative log likelihood function to be 
-      //! minimized (-2LL)
+      //! minimized (NLL)
       double NLogLikelihood(double* par) override = 0;
 
       //! Set parameter to pull
@@ -66,7 +64,7 @@ class MSModelPullGaus : public mst::MSModelPull
       virtual ~MSModelPullGaus() {}
 
       //! function returning the negative log likelihood function to be 
-      //! minimized (-2LL)
+      //! minimized (NLL)
       double NLogLikelihood(double* par) override;
 
       //! Set centroid
@@ -93,7 +91,7 @@ class MSModelPullExp : public mst::MSModelPull
       virtual ~MSModelPullExp() {}
 
       //! function returning the negative log likelihood function to be 
-      //! minimized (-2LL)
+      //! minimized (NLL)
       double NLogLikelihood(double* par) override;
 
       //! Set limit

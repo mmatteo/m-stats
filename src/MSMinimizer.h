@@ -18,7 +18,7 @@
  * \class mst::MSMinimizer
  *
  * \brief 
- * Base class for minimizers
+ * Base class implementing the minimizer
  *
  * \details 
  * Class handling the interface betweeen models and minimizer.
@@ -75,7 +75,6 @@ class MSMinimizer : public MSObject
          for (const auto& it : *fGlobalParMap) it.second->PrintSummary();
       }
 
-
       //! Initialize minuit with default options
       TMinuit* InitializeMinuit();
       //! Initialize minuit with custom
@@ -125,7 +124,7 @@ class MSMinimizer : public MSObject
       int GetMinuitStatus() const { return fMinuitErrorFlag; }
 
       //! Get output status after minuit last call
-      int GetNMigradFails() const { return fNMigradFails; }
+      int GetNMinuitFails() const { return fNMinuitFails; }
 
       //! Get NLL minimum (synced with last migrad call)
       double GetMinNLL() const { return fMinNLL; }
@@ -161,7 +160,7 @@ class MSMinimizer : public MSObject
       //! Error flag used by minuit functions
       int fMinuitErrorFlag {0};
       //! Number of times migrad returned an error flag
-      int fNMigradFails {0};
+      int fNMinuitFails {0};
 
       //! Maximum interations of minuit during minimization
       int fMinuitMaxCalls {2000};

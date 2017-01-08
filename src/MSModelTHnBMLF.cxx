@@ -40,17 +40,17 @@ double MSModelTHnBMLF::NLogLikelihood(double* par)
       exit(1);
    }
 
-   double nLogLikelihood = 0.0;
+   double logLikelihood = 0.0;
    // loop over dimensions
    auto it = fDataSet->CreateIter(kTRUE);
    Long64_t i = 0;
    while ((i = it->Next()) >= 0)
-         nLogLikelihood += MSMath::LogPoisson(fDataSet->GetBinContent(i), 
-                                              fExposure*pdf->GetBinContent(i));
+         logLikelihood += MSMath::LogPoisson(fDataSet->GetBinContent(i), 
+                                             fExposure*pdf->GetBinContent(i));
 
    delete pdf;
    delete it;
-   return (-nLogLikelihood);
+   return (-logLikelihood);
 }
 
 } // namespace mst

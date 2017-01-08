@@ -212,7 +212,7 @@ void MSMinimizer::Minimize(const std::string& minimizer, bool resetFitStartValue
    // Run actual minimization
    fMinuit->mnexcm(minimizer.c_str(), fMinuitArglist, 2, fMinuitErrorFlag);
 
-   if (GetMinuitStatus()) fNMigradFails++;
+   if (GetMinuitStatus()) fNMinuitFails++;
 
    // Retrive fit results from minuit and store info
    MSParameterMap::const_iterator gIt0 = fGlobalParMap->begin();

@@ -166,7 +166,6 @@ class MSParameter : public MSObject
       //! Print parameter info
       void PrintSummary() const;
 
-
       //! Set best fit value
       void SetFitBestValue(double value) { fFitBestValue = value; }
       //! Set fit lower limit
@@ -187,8 +186,6 @@ class MSParameter : public MSObject
 
       //! Reset fit results
       void ResetFitResult();
-
-
 
    private:
       //! Flag storing the type of parameter
