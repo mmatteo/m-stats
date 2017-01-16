@@ -35,7 +35,8 @@ double MSMath::LogGaus(double x, double mean, double sigma) {
       return 0;
    }
    const double dx = (x - mean) / sigma;
-   return -0.5*dx*dx - 0.5*log(2*M_PI) - log(sigma);
+   const static double constant = 0.5*log(2*M_PI);
+   return -0.5*dx*dx - constant - log(sigma);
 }
 
 double MSMath::LogPoisson(double x, double lambda) {
