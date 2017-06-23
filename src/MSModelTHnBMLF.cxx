@@ -36,13 +36,13 @@ double MSModelTHnBMLF::NLogLikelihood(double* par)
       exit(1);
    }
    if (fDataSet == 0) {
-      std::cerr << "NLogLikelihood >> error: DataHist of unknown object type\n";
+      std::cerr << "NLogLikelihood >> error: DataHist not set\n";
       exit(1);
    }
 
    double logLikelihood = 0.0;
    // loop over dimensions
-   auto it = fDataSet->CreateIter(kTRUE);
+   auto it = pdf->CreateIter(kTRUE);
    Long64_t i = 0;
    while ((i = it->Next()) >= 0)
          logLikelihood += MSMath::LogPoisson(fDataSet->GetBinContent(i), 
