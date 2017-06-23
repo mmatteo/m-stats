@@ -3,7 +3,7 @@
 
 #ifdef __CINT__
 
-#pragma link C++ class mst::MSObject;
+#pragma link C++ class mst::MSObject-;
 #pragma link C++ class mst::MSMath-;
 #pragma link C++ class mst::MSConfig-;
 #pragma link C++ class mst::MSDataPoint-;
@@ -14,6 +14,7 @@
 #pragma link C++ class mst::MSModelTHnBMLF-;
 #pragma link C++ class mst::MSModelPullGaus-;
 #pragma link C++ class mst::MSMinimizer-;
+#pragma link C++ class mst::MSTHnHandler-;
 
 #endif // __CINT__
 
