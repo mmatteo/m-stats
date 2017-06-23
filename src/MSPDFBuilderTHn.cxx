@@ -44,88 +44,16 @@ MSPDFBuilderTHn::~MSPDFBuilderTHn()
    delete fRnd;
 }
 
-void MSPDFBuilderTHn::LoadHist(const std::string& fileName, 
-      const std::string& histName, const std::string& newHistName,
-      const Int_t  ndim_pr, const Int_t* dim_pr) {
+void MSPDFBuilderTHn::RegisterHist(THn* hist) {
 
    // Check if an hist with the same name was already loaded
-  if (fHistMap->find(newHistName) != fHistMap->end()) {
+  if (fHistMap->find(hist->GetName()) != fHistMap->end()) {
     std::cerr << "error: PDF already loaded\n";
     return;
   }
 
-  // Get pointer of the file 
-  TFile inputFile(fileName.c_str(), "READ");
-  if(inputFile.IsOpen() == kFALSE) {
-    std::cerr << "error: input file not found\n";
-    return;
-  }
-
-  // load new hist checking for the type
-  THnBase* hist = dynamic_cast<THnBase*>(inputFile.Get(histName.c_str()));
-  if (!hist) {
-    std::cerr << "error: PDF not found in the file\n";
-  } else {
-     // Create local THn
-     THn* tmp = THn::CreateHn(newHistName.c_str(), newHistName.c_str(), hist);
-     if (dim_pr == nullptr) {
-        tmp->SetName(newHistName.c_str());
-        tmp->SetTitle(newHistName.c_str());
-        fHistMap->insert( HistPair( newHistName, tmp));
-     } else {
-        THn* tmp_pr = tmp->Projection(ndim_pr, dim_pr);
-        delete tmp;
-        tmp_pr->SetName(newHistName.c_str());
-        tmp_pr->SetTitle(newHistName.c_str());
-        fHistMap->insert( HistPair( newHistName, tmp_pr));
-     }
-     delete hist;
-  }
-
-  inputFile.Close();
+  fHistMap->insert( HistPair( hist->GetName(), hist));
   return;
-}
-
-
-void MSPDFBuilderTHn::NormalizeHists(bool respectAxisUserRange) {
-   // loop over all hist loaded
-   for (auto im : *fHistMap) {
-      // loop over dimensions
-      auto it = im.second->CreateIter(respectAxisUserRange);
-      Long64_t i = 0;
-      double integral = 0;
-      while ((i = it->Next()) >= 0) integral += im.second->GetBinContent(i);
-      im.second->Scale(1./integral);
-   }
-}
-
-void MSPDFBuilderTHn::SetRangeUser(double min, double max, int axis) {
-   // loop over all hists
-   for (auto im : *fHistMap) {
-      if (im.second->GetAxis(axis) != nullptr)
-         im.second->GetAxis(axis)->SetRangeUser(min,max);
-   }
-}
-
-void MSPDFBuilderTHn::Rebin(Int_t* ngroup) {
-   // a hist map is filled and then substitute to the original one
-   // because the method THn doesn not provide a method that modyfy the object
-   // itself
-   auto newHistMap = new HistMap;
-   for (auto im : *fHistMap) {
-      THn* newPdf = im.second->Rebin(ngroup);
-      newPdf->SetName(im.second->GetName());
-      newPdf->SetTitle(im.second->GetTitle());
-      newHistMap->insert( HistPair( newPdf->GetName(), newPdf));
-   }
-
-   // Clean up old map 
-   for (auto im : *fHistMap) delete im.second;
-   fHistMap->clear();
-   delete fHistMap;
-
-   // swap new map
-  fHistMap = newHistMap;
 }
 
 

@@ -61,23 +61,7 @@ class MSPDFBuilderTHn : public MSObject
    using HistMap  = std::map <const std::string, THn*>;
 
    //! Load histogram from file
-   void LoadHist(const std::string& fileName, 
-                 const std::string& histName,
-                 const std::string& newHistName = "",
-                 const Int_t  ndim_pr = 0, 
-                 const Int_t* dim_pr = nullptr);
-
-   //! Normalize loaded histograms. The normalization is performed in the 
-   //! user range if respectAxisUserRange is true. Otherwise by default it
-   //! includes all bins, including over- and under-shot bins
-   void NormalizeHists(bool respectAxisUserRange);
-
-   //! Set the user range of a specific axis of all registered PDF's 
-   void SetRangeUser(double min, double max, int axis=0);
-
-   //! Rebin all registered input histograms. ngroup should be an array
-   //! where the i-th entry is used to rebin the i-th axis
-   void Rebin(Int_t* ngroup);
+   void RegisterHist(THn*);
 
    //! Add scaled histogram to tmp PDF
    void AddHistToPDF(const std::string& histName, double scaling = 1);
