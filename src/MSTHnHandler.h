@@ -68,9 +68,9 @@ class MSTHnHandler : public MSObject
       void Reset() { m.clear(); }
 
       //! Load histogram from file, manipulate it and return a copy
-      THnBase* BuildHist(const std::string& fileName, 
-                         const std::string& histName,
-                         const std::string& newHistName);
+      THn* BuildHist(const std::string& fileName, 
+                     const std::string& histName,
+                     const std::string& newHistName);
 
    protected:
       struct axis {

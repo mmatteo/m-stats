@@ -27,7 +27,7 @@
 
 namespace mst {
 
-THnBase* MSTHnHandler::BuildHist(const std::string& fileName, 
+THn* MSTHnHandler::BuildHist(const std::string& fileName, 
                                  const std::string& histName,
                                  const std::string& newHistName) {
 
@@ -51,22 +51,20 @@ THnBase* MSTHnHandler::BuildHist(const std::string& fileName,
    inputFile.Close();
 
    // project hist
-   {
-      const int ndim = m.size();
-      int IDs[ndim];
+   if (m.size()) {
+      int IDs[m.size()] = {0};
       int counter = 0;
       for (auto i : m) IDs[counter++] = i.first;
 
-      THn* tmp = tmp->Projection(ndim, IDs);
+      THn* tmp = outHist->Projection(m.size(), IDs);
       delete outHist;
       outHist = tmp;
    }
    // rebin
-   {
+   if (m.size()) {
       // a new hist is substitute to the original one because the method THn 
       // doesn't not provide a method that modyfy the object itself
-      const int ndim = m.size();
-      int ngroup[ndim];
+      int ngroup[m.size()] = {0};
       for (auto i : m) ngroup[i.first] = i.second.ngroup;
 
       THn* tmp = outHist->Rebin(ngroup);
