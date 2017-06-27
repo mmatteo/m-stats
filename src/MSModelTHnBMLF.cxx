@@ -42,7 +42,7 @@ double MSModelTHnBMLF::NLogLikelihood(double* par)
 
    double logLikelihood = 0.0;
    // loop over dimensions
-   auto it = data->CreateIter(kTRUE);
+   auto it = fDataSet->CreateIter(kTRUE);
    Long64_t i = 0;
    while ((i = it->Next()) >= 0)
          logLikelihood += MSMath::LogPoisson(fDataSet->GetBinContent(i), 

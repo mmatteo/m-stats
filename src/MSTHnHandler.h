@@ -43,9 +43,9 @@ class MSTHnHandler : public MSObject
 {
    public:
       //! Constructor
-      MSTHnHandler(const std::string& name = "");
+      MSTHnHandler(const std::string& name = "") : MSObject (name) {}
       //! Destructor
-      virtual ~MSTHnHandler();
+      virtual ~MSTHnHandler() {}
 
       //! Normalize histogram. The normalization is performed in the 
       //! user range if respectAxisUserRange is true. Otherwise by default it
