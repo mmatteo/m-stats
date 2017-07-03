@@ -45,7 +45,7 @@ MSMinimizer::~MSMinimizer()
    delete fMinuit;
 }
 
-TMinuit* MSMinimizer::InitializeMinuit()
+TMinuit* MSMinimizer::InitializeMinuit (int verbosity, double errVal)
 {
    // Check if module list contains at least one model
    if (fModelVector->size() == 0) {
@@ -59,10 +59,13 @@ TMinuit* MSMinimizer::InitializeMinuit()
    // Fixed the pointer to the global parameter list
    fGlobalParMap = fModelVector->at(0)->GetParameters();
 
-   // Initiazlie minuit
+   // Initialize minuit
    delete fMinuit;
    fMinuit = new TMinuit(fGlobalParMap->size());
    fMinuit->SetFCN(&MSMinimizer::FCNNLLLikelihood);
+
+   SetMinuitVerbosity(verbosity);
+   SetMinuitErrVal(errVal);
 
    return fMinuit;
 }

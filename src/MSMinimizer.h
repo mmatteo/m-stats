@@ -75,17 +75,10 @@ class MSMinimizer : public MSObject
          for (const auto& it : *fGlobalParMap) it.second->PrintSummary();
       }
 
-      //! Initialize minuit with default options
-      TMinuit* InitializeMinuit();
       //! Initialize minuit with custom
       //! -- verbosity can be from -1 (min) to 3 (max)
       //! -- errVal is usually set to 0.5 for NLL or 1 for chi^2
-      TMinuit* InitializeMinuit(int verbosity, double errVal) {
-         InitializeMinuit();
-         SetMinuitVerbosity(verbosity);
-         SetMinuitErrVal(errVal);
-         return GetMinuit();
-      }
+      TMinuit* InitializeMinuit(int verbosity = 0, double errVal = .5);
 
       //! Set minuit verbosity
       void SetMinuitErrVal (double level);
