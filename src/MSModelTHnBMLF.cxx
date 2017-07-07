@@ -52,5 +52,38 @@ double MSModelTHnBMLF::NLogLikelihood(double* par)
    delete it;
    return (-logLikelihood);
 }
+double MSModelTHnBMLF::RandomNLogLikelihood(double* par)
+{
+   fPDFBuilder->ResetPDF();
+
+   // retrieve parameters from Minuit and compute the total exposure
+   for (int i =0; i < fParNameList->size(); i++) {
+      const double par_cts = GetMinuitParameter(par, fParNameList->at(i));
+      fPDFBuilder->AddHistToPDF(fParNameList->at(i),  par_cts);
+   }
+
+   const THn* pdf = fPDFBuilder->GetPDF("tmpPDF");
+   if (pdf == 0) {
+      std::cerr << "NLogLikelihood >> error: PDFBuilder returned unknown object type\n";
+      exit(1);
+   }
+   if (fDataSet == 0) {
+      std::cerr << "NLogLikelihood >> error: DataHist of unknown object type\n";
+      exit(1);
+   }
+
+   double logLikelihood = 0.0;
+   // loop over dimensions
+   auto it = pdf->CreateIter(kTRUE);
+   Long64_t i = 0;
+   while ((i = it->Next()) >= 0)
+         logLikelihood += MSMath::LogPoisson(
+	     gRandom->Poisson(fExposure*pdf->GetBinContent(i)),
+                                             fExposure*pdf->GetBinContent(i));
+
+   delete pdf;
+   delete it;
+   return (-logLikelihood);
+}
 
 } // namespace mst

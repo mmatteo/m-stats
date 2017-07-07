@@ -90,6 +90,7 @@ class MSModel : public MSObject
 
       //! Virtual function returning the NLogLikelihood function
       virtual double NLogLikelihood(double* parameters) = 0;
+      virtual double RandomNLogLikelihood(double* parameters) = 0;
 
     //
     // Parameters of interest for the model

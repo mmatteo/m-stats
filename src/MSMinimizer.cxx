@@ -246,4 +246,24 @@ void MSMinimizer::FCNNLLLikelihood(int & /*npar*/, double * /*grad*/,
    for (const auto& i : *modelVector) fval += i->NLogLikelihood(par);
 }
 
+double MSMinimizer::GetPValue() const {
+  double absMinLL = GetMinNLL();
+  int Nabove = 0;
+  int N = 1000;
+  if(fGlobalParMap->size()>500) throw std::runtime_error("too many parameters");
+  double parList[500];
+  int i = 0;
+  for(auto par : *fGlobalParMap) {
+    parList[i] = par.second->GetFitBestValue();
+    ++i;
+  }
+  for(int i = 0;i<N;++i) {
+    double fval = 0;
+    for (const auto& i : *global_pointer->fModelVector) fval += i->RandomNLogLikelihood(parList);
+    if(fval>absMinLL) ++Nabove;
+  }
+  return Nabove*1./N;
+}
+
+
 } // namespace mst

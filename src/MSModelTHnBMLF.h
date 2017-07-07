@@ -52,6 +52,7 @@ class MSModelTHnBMLF : public MSModelT<THnBase,MSPDFBuilderTHn>
       //! function returning the negative log likelihood function to be 
       //! minimized (NLL)
       double NLogLikelihood(double* par) override;
+      double RandomNLogLikelihood(double* parameters) override;
 };
 
 } // namespace mst
