@@ -122,6 +122,9 @@ class MSMinimizer : public MSObject
       //! Get NLL minimum (synced with last migrad call)
       double GetMinNLL() const { return fMinNLL; }
 
+      //! Get p-value
+      double GetPValue() const;
+
       //! Get estimated vertical distance from minimum
       //!  (synced with last migrad call)
       double GetEDM() const { return fEDM; }
