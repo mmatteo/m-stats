@@ -36,6 +36,7 @@ AC_CONFIG_FILES([
 	m-stats.pc
 	m-stats-config
 	src/core/Makefile
+	src/binnedfit/Makefile
 	doc/Makefile doc/Doxyfile
 ])
 
