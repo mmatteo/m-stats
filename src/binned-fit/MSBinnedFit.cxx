@@ -197,7 +197,7 @@ MSMinimizer* InitializeAnalysis (const rapidjson::Document& json) {
       // of the axis
       for (const auto& component : dataSet.value["components"].GetObject()) {
          // Build file path possibly addng prefix from env variable 
-         TString pathToFile (getenv("MSTATS_BINNEDFIT_PDF_DIR"));
+         TString pathToFile (getenv("M_STATS_BINNED_FIT_PDF_DIR"));
          if (pathToFile != "") pathToFile += "/";
          pathToFile +=component.value["pdf"][0].GetString();
 

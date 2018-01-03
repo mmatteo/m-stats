@@ -17,7 +17,7 @@
 
 // main.cc
 /*!
- * m-stat-binnedfit: multi variate binned analysis
+ * m-stat-binned-fit: multi variate binned analysis
  */
 
 #define VERSION     "v 1.5 "
