@@ -23,7 +23,7 @@
 #define VERSION     "v 1.5 "
 #define DATE        "(Jan 2018)"
 #define AUTHOR      "Matteo Agostini"
-#define EMAIL       "<matteo.agostini@gssi.infn.it>"
+#define EMAIL       "<matteo.agostini@ph.tum.de>"
 #define DESCRIPTION "A tool for multi variate binned analysis"
 
 // c/c++ libs
