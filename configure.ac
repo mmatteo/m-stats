@@ -35,7 +35,7 @@ AC_CONFIG_FILES([
 	Makefile
 	m-stats.pc
 	m-stats-config
-	src/Makefile
+	src/core/Makefile
 	doc/Makefile doc/Doxyfile
 ])
 

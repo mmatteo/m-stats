@@ -1,5 +1,5 @@
-#ifndef m_stats_LinkDef_h
-#define m_stats_LinkDef_h
+#ifndef m_stats_core_LinkDef_h
+#define m_stats_core_LinkDef_h
 
 #ifdef __CLING__
 
@@ -17,4 +17,4 @@
 
 #endif // __CLING__
 
-#endif // m_stats_LinkDef_h
+#endif // m_stats_core_LinkDef_h
