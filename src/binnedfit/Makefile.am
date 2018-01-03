@@ -30,7 +30,6 @@ m_stats_binnedfit_LDADD = $(program_ldadd)
 rootmapdir = $(libdir)
 rootmap_DATA =
 
-
 libm_stats_binnedfit_la_SOURCES += libm-stats-binnedfit_rdict.cxx
 rootmap_DATA += .libs/libm-stats-binnedfit.rootmap
 

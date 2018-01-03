@@ -7,7 +7,10 @@ lib_LTLIBRARIES = libm-stats-core.la
 
 libm_stats_core_la_LIBADD =
 
+
 program_ldadd = libm-stats-core.la
+
+# AM_CPPFLAGS = 
 
 libm_stats_core_la_SOURCES = \
 	MSConfig.cxx \
