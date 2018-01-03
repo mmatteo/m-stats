@@ -8,7 +8,7 @@ MAINTAINERCLEANFILES = Makefile.in \
 
 EXTRA_DIST = autogen.sh
 
-SUBDIRS = src/core doc
+SUBDIRS = src/core src/binnedfit doc
 
 dist_doc_DATA = README COPYING AUTHORS ChangeLog INSTALL NEWS
 dist_bin_SCRIPTS = m-stats-config
