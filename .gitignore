@@ -45,7 +45,7 @@ m4/ltversion.m4
 /src/*/*.rootmap
 
 #binary 
-/src/binned-fit/m-stats-binned-fit
+/src/hist-fit/m-stats-hist-fit
 #auto generated backups
 *.*~
 *.*swp
