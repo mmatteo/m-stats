@@ -6,6 +6,7 @@
 #include <cstdlib> 
 #include <map>
 #include <sstream>
+#include <fstream>
 
 // ROOT libs
 #include <TBranch.h>
@@ -20,6 +21,7 @@
 
 // rapidjson's DOM-style API
 #include "../rapidjson/document.h"
+#include "../rapidjson/istreamwrapper.h"
 
 // m-stats libs
 #include <MSPDFBuilderTHn.h>
@@ -35,122 +37,135 @@ namespace mst {
 /* 
  * Load and check integrity of the json config file
  */
-void LoadConfig (const rapidjson::Document& json) {
+rapidjson::Document LoadConfig (const string& configFileName, bool verbose = false) {
 
-   assert(json.HasMember("fittingModel"));
-   assert(json["fittingModel"].IsObject());
+   std::ifstream inputStream (configFileName);
+   rapidjson::IStreamWrapper inputStreamWrapper (inputStream);
+   rapidjson::Document json;
+   if (json.ParseStream(inputStreamWrapper).HasParseError()) {
+      cerr << "error in json config file: invalid syntax" << endl;
+      exit(1);
+   }
+   inputStream.close();
 
-   assert(json["fittingModel"].HasMember("dataSets"));
-   assert(json["fittingModel"]["dataSets"].IsObject());
 
-   for (const auto& dataSet : json["fittingModel"]["dataSets"].GetObject()) {
+   // lambda to check if a file exist and has the correct properties
+   auto isMemberCorrect = [&verbose] (const rapidjson::Value& json, 
+                                      const string& memberName, 
+                                      const string& memberType, 
+                                      const string& subMemberType = "",  
+                                      const int memberSize = 0) {
 
-      assert(dataSet.value.HasMember("exposure"));
-      assert(dataSet.value["exposure"].IsNumber());
+      // verbose dump
+      if (verbose) cout << "info: checking json config file: member " << memberName << "... ";
 
-      assert(dataSet.value.HasMember("components"));
-      assert(dataSet.value["components"].IsObject());
-      for (const auto& component : dataSet.value["components"].GetObject()) {
-         assert(component.value.HasMember("global"));
-         assert(component.value["global"].IsBool());
-
-         assert(component.value.HasMember("refVal"));
-         assert(component.value["refVal"].IsNumber());
-
-         assert(component.value.HasMember("range"));
-         assert(component.value["range"].IsArray());
-         assert(component.value["range"].Size() == 2);
-         for (const auto& i : component.value["range"].GetArray()) 
-            assert(i.IsNumber());
-
-         assert(component.value.HasMember("fitStep"));
-         assert(component.value["fitStep"].IsNumber());
-
-         assert(component.value.HasMember("pdf"));
-         assert(component.value["pdf"].IsArray());
-         assert(component.value["pdf"].Size()== 2);
-         for (const auto& i : component.value["pdf"].GetArray()) 
-            assert(i.IsString());
-
-         assert(component.value.HasMember("injVal"));
-         assert(component.value["injVal"].IsNumber());
-
-         assert(component.value.HasMember("color"));
-         assert(component.value["color"].IsInt());
-      }
-
-      // optional block
-      if (dataSet.value.HasMember("projectOnAxis")) {
-         assert(dataSet.value["projectOnAxis"].IsArray());
-         for (const auto& i : dataSet.value["projectOnAxis"].GetArray()) 
-            assert(i.IsInt());
+      // check existance of the member
+      const auto member = json.FindMember(memberName.c_str());
+      if (member == json.MemberEnd()) {
+         cerr << "error in json config file: member " << memberSize 
+              << " not found" << endl;
+         exit(1);
       }
       
-      // optional block
-      if (dataSet.value.HasMember("axis")) {
-         assert(dataSet.value["axis"].IsObject());
-         for (const auto& axis : dataSet.value["axis"].GetObject()) {
-            if (axis.value.HasMember("range")) {
-               assert(axis.value["range"].IsArray());
-               assert(axis.value["range"].Size() == 2);
-               for (const auto& i : axis.value["range"].GetArray())
-                  assert(i.IsNumber());
+      // check member type
+      auto isTypeCorrect = [] (const rapidjson::Value& member, const string& memberType){
+         bool c = false;
+         if      (!strcmp (memberType.c_str(), "Bool"  )) c = member.IsBool();  
+         else if (!strcmp (memberType.c_str(), "Number")) c = member.IsNumber();
+         else if (!strcmp (memberType.c_str(), "Int"   )) c = member.IsInt();   
+         else if (!strcmp (memberType.c_str(), "Double")) c = member.IsDouble();
+         else if (!strcmp (memberType.c_str(), "String")) c = member.IsString();
+         else if (!strcmp (memberType.c_str(), "Array" )) c = member.IsArray(); 
+         else if (!strcmp (memberType.c_str(), "Object")) c = member.IsObject();
+         return c;
+      };
+      if (isTypeCorrect(member->value, memberType) == false) {
+         cerr << "error in json config file: member " << memberName
+              << " must be of type " << memberType << endl;
+         exit(1);
+      }
+
+      // check array submembers
+      if (strcmp(subMemberType.c_str(), "")) {
+         for (const auto& i : member->value.GetArray()) {
+            if (isTypeCorrect(i, subMemberType.c_str()) == false) {
+               cerr << "error in json config file: members of member " << memberName
+                  << " must be of type " << subMemberType << endl;
+               exit(1);
             }
          }
-         if (dataSet.value["axis"].HasMember("rebin")) {
-            assert(dataSet.value["axis"]["rebin"].IsInt());
-         }
       }
 
-      // optional block
-      if (dataSet.value.HasMember("normalizePDFInUserRange")) {
-         assert(dataSet.value["normalizePDFInUserRange"].IsBool());
+      // check size
+      if (memberSize > 0 && member->value.Size() != memberSize) {
+         cerr << "error in json config file: member " << memberName
+              << " is not of size " << memberSize << endl;
+         exit(1);
       }
+
+      if (verbose) cout << "done." << endl;
+      return;
+   };
+
+   isMemberCorrect(json,"fittingModel", "Object");                             // json/fittingModel                                                 
+   isMemberCorrect(json["fittingModel"], "dataSets", "Object");                // json/fittingModel/dataSets
+   for (const auto& dataSet : json["fittingModel"]["dataSets"].GetObject()) {  // json/fittingModel/dataSets/*
+      if (verbose) cout << "info: checking dataSet "                           //
+                        << dataSet.name.GetString() << endl;                   //
+      isMemberCorrect(dataSet.value, "exposure", "Number");                    // json/fittingModel/dataSets/*/exposure
+      isMemberCorrect(dataSet.value, "components", "Object");                  // json/fittingModel/dataSets/*/components
+      for (const auto& component : dataSet.value["components"].GetObject()) {  // json/fittingModel/dataSets/*/components/*
+         if (verbose) cout << "info: checking component "                      //
+                           << component.name.GetString() << endl;              //
+         isMemberCorrect(component.value, "global", "Bool");                   // json/fittingModel/dataSets/*/components/*/global
+         isMemberCorrect(component.value, "refVal", "Number");                 // json/fittingModel/dataSets/*/components/*/refVal
+         isMemberCorrect(component.value, "range", "Array", "Number", 2);      // json/fittingModel/dataSets/*/components/*/range[]
+         isMemberCorrect(component.value, "fitStep", "Number");                // json/fittingModel/dataSets/*/components/*/fitStep
+         isMemberCorrect(component.value, "pdf", "Array", "String", 2);        // json/fittingModel/dataSets/*/components/*/pdf[]
+         isMemberCorrect(component.value, "injVal", "Number");                 // json/fittingModel/dataSets/*/components/*/injVal
+         isMemberCorrect(component.value, "color", "Int");                     // json/fittingModel/dataSets/*/components/*/color
+      }                                                                        //
+      isMemberCorrect(dataSet.value, "projectOnAxis", "Array", "Int");         // json/fittingModel/dataSets/*/projectOnAxis[]
+      isMemberCorrect(dataSet.value, "axis", "Object");                        // json/fittingModel/dataSets/*/axis
+      for (const auto& axis : dataSet.value["axis"].GetObject()) {             // json/fittingModel/dataSets/*/axis/*
+         if (verbose) cout << "info: checking axis "                           //
+                           << axis.name.GetString() << endl;              //
+         isMemberCorrect(axis.value, "range", "Array", "Number", 2);           // json/fittingModel/dataSets/*/axis/*/range[]
+         isMemberCorrect(axis.value, "rebin", "Int");                          // json/fittingModel/dataSets/*/axis/*/rebin
+      }                                                                        // 
+      if (dataSet.value.HasMember("normalizePDFInUserRange")) {                // optional block:
+         isMemberCorrect(dataSet.value, "normalizePDFInUserRange", "Bool");    // json/fittingModel/dataSets/*/normalizePDFInUserRange
+      }                                                                        //
+   }                                                                           //
+   if (json.HasMember("pulls")) {                                              // optional block:
+      isMemberCorrect(json, "pulls", "Object");                                // json/pulls
+      for (const auto& pull : json["pulls"].GetObject()) {                     // json/pulls/*
+         if (verbose) cout << "info: checking pull "                           // 
+                           << pull.name.GetString() << endl;                   //
+         isMemberCorrect(pull.value, "type", "String");                        // json/pulls/*/type
+         isMemberCorrect(pull.value, "centroid", "Number");                    // json/pulls/*/centroid
+         isMemberCorrect(pull.value, "sigma", "Number");                       // json/pulls/*/sigma
+      }                                                                        //
+   }                                                                           //
+   isMemberCorrect(json, "MinimizerSteps", "Object");                          // json/MinimizerSteps
+   for (const auto& step : json["MinimizerSteps"].GetObject()) {               // json/MinimizerSteps/*
+         if (verbose) cout << "info: checking step "                           //  
+                           << step.name.GetString() << endl;                   //
+      isMemberCorrect(step.value, "method", "String");                         // json/MinimizerSteps/*
+      isMemberCorrect(step.value, "resetMinuit", "Bool");                      // json/MinimizerSteps/*/resetMinuit
+      isMemberCorrect(step.value, "maxCall", "Number");                        // json/MinimizerSteps/*/maxCall
+      isMemberCorrect(step.value, "tollerance", "Number");                     // json/MinimizerSteps/*/tollerance
+      isMemberCorrect(step.value, "verbosity", "Int");                         // json/MinimizerSteps/*/verbosity
+   }                                                                           //
+   if (json.HasMember("MC")) {                                                 // optional block:
+      isMemberCorrect(json, "MC", "Object");                                   // json/MC
+      isMemberCorrect(json["MC"], "realizations", "Int");                      // json/MC/realizations
+      isMemberCorrect(json["MC"], "seed", "Int");                              // json/MC/seed
+      isMemberCorrect(json["MC"], "enablePoissonFluctuations", "Bool");        // json/MC/enablePoissonFluctuations
+      isMemberCorrect(json["MC"], "outputFile", "String");                     // json/MC/outputFile
    }
 
-   // optional block
-   if (json.HasMember("pulls")) {
-      assert(json["pulls"].IsObject());
-      for (const auto& pull : json["pulls"].GetObject()) {
-         assert(pull.value.HasMember("type"));
-         assert(pull.value["type"].IsString());
-         assert(pull.value.HasMember("centroid"));
-         assert(pull.value["centroid"].IsNumber());
-         assert(pull.value.HasMember("sigma"));
-         assert(pull.value["sigma"].IsNumber());
-      }
-   }
-   
-   // Mandatory block
-   assert(json.HasMember("MinimizerSteps"));
-   assert(json["MinimizerSteps"].IsObject());
-   for (const auto& step : json["MinimizerSteps"].GetObject()) {
-      assert(step.value.HasMember("method"));
-      assert(step.value["method"].IsString());
-      assert(step.value.HasMember("resetMinuit"));
-      assert(step.value["resetMinuit"].IsBool());
-      assert(step.value.HasMember("maxCall"));
-      assert(step.value["maxCall"].IsNumber());
-      assert(step.value.HasMember("tollerance"));
-      assert(step.value["tollerance"].IsNumber());
-      assert(step.value.HasMember("verbosity"));
-      assert(step.value["verbosity"].IsInt());
-   }
-   
-   // optional block
-   if (json.HasMember("MC")) {
-      assert(json["MC"].IsObject());
-      assert(json["MC"].HasMember("realizations"));
-      assert(json["MC"]["realizations"].IsInt());
-      assert(json["MC"].HasMember("seed"));
-      assert(json["MC"]["seed"].IsInt());
-      assert(json["MC"].HasMember("enablePoissonFluctuations"));
-      assert(json["MC"]["enablePoissonFluctuations"].IsBool());
-      assert(json["MC"].HasMember("outputFile"));
-      assert(json["MC"]["outputFile"].IsString());
-   }
-
-   return;
+   return json;
 }
 
 /* 

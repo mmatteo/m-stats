@@ -28,7 +28,6 @@
 
 // c/c++ libs
 #include <cstdlib>
-#include <fstream>
 #include <getopt.h>
 #include <iostream>
 #include <signal.h>
@@ -45,11 +44,10 @@
 #include <MSModelTHnBMLF.h>
 #include <MSModelPulls.h>
 #include <MSMinimizer.h>
-#include <MSHistFit.cxx>
+#include "MSHistFit.cxx"
 
 // rapidjson's DOM-style API
 #include "../rapidjson/document.h"   
-#include "../rapidjson/istreamwrapper.h"
 
 using namespace std;
 
@@ -114,15 +112,8 @@ int main(int argc, char** argv)
 
    // retrieve json file
    cout << "Loading configuration from " << gConfigFileName << endl;
-   std::ifstream inputStream (gConfigFileName);
-   rapidjson::IStreamWrapper inputStreamWrapper (inputStream);
-   rapidjson::Document json;
-   if (json.ParseStream(inputStreamWrapper).HasParseError()) {
-      cerr << "error: not valid json syntax" << endl;
-      exit(1);
-   }
-   inputStream.close();
-   mst::LoadConfig(json);
+   rapidjson::Document json = mst::LoadConfig(gConfigFileName, gVerbosityLevel);
+
 
    // Open output file
    TString oFileName (json["MC"]["outputFile"].GetString());
