@@ -11,7 +11,7 @@ EXTRA_DIST = autogen.sh
 
 SUBDIRS = \
 	src/core \
-	src/binned-fit \
+	src/hist-fit \
 	doc
 
 dist_doc_DATA = README COPYING AUTHORS ChangeLog INSTALL NEWS

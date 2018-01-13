@@ -1,5 +1,5 @@
-#ifndef MST_MSBinnedFit_H
-#define MST_MSBinnedFit_H
+#ifndef MST_MSHistFit_H
+#define MST_MSHistFit_H
 
 // c/c++ libs
 #include <csignal>
@@ -638,4 +638,4 @@ TCanvas* GetCanvasProfiles (const rapidjson::Document& json, MSMinimizer* fitter
 
 } // namespace mst
 
-#endif // MST_MSBinnedFit_H
+#endif // MST_MSHistFit_H

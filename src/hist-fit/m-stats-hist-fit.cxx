@@ -17,14 +17,14 @@
 
 // main.cc
 /*!
- * m-stat-binned-fit: multi variate binned analysis
+ * m-stat-hist-fit: multi variate binned analysis with THn histograms
  */
 
 #define VERSION     "v 1.5 "
 #define DATE        "(Jan 2018)"
 #define AUTHOR      "Matteo Agostini"
 #define EMAIL       "<matteo.agostini@ph.tum.de>"
-#define DESCRIPTION "A tool for multi variate binned analysis"
+#define DESCRIPTION "A tool for multi variate binned analysis with THn histograms"
 
 // c/c++ libs
 #include <cstdlib>
@@ -45,14 +45,12 @@
 #include <MSModelTHnBMLF.h>
 #include <MSModelPulls.h>
 #include <MSMinimizer.h>
-#include "MSBinnedFit.cxx"
+#include <MSHistFit.cxx>
 
 // rapidjson's DOM-style API
 #include "../rapidjson/document.h"   
 #include "../rapidjson/istreamwrapper.h"
 
-// FIXME remove mst namespace
-using namespace mst;
 using namespace std;
 
 
