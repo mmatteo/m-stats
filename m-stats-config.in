@@ -96,7 +96,7 @@ while test $# -gt 0 ; do
 done
 
 
-libs="-l@PACKAGE_TARNAME@"
+libs="-lm-stats-core -lm-stats-hist-fit"
 
 
 # ---------------------------------------------------------------------

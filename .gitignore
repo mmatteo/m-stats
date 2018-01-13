@@ -28,22 +28,24 @@ m4/ltversion.m4
 /stamp-h1
 
 /*.pc
+**.db
 /*-config
 
+/src/*/Makefile
+/src/*/Makefile.in
 
-/src/Makefile
-/src/Makefile.in
+/src/*/.libs
+/src/*/*.o
+/src/*/*.lo
+/src/*/*.la
+/src/*/.deps
+/src/*/*_rdict.cxx
+/src/*/*_rdict.h
+/src/*/*_rdict.pcm
+/src/*/*.rootmap
 
-/src/.libs
-/src/*.o
-/src/*.lo
-/src/*.la
-/src/.deps
-/src/*_rdict.cxx
-/src/*_rdict.h
-/src/*_rdict.pcm
-/src/*.rootmap
-
+#binary 
+/src/hist-fit/m-stats-hist-fit
 #auto generated backups
 *.*~
 *.*swp

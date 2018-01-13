@@ -1,3 +1,4 @@
+AUTOMAKE_OPTIONS = foreign
 ACLOCAL_AMFLAGS = -I m4
 
 MAINTAINERCLEANFILES = Makefile.in \
@@ -8,7 +9,10 @@ MAINTAINERCLEANFILES = Makefile.in \
 
 EXTRA_DIST = autogen.sh
 
-SUBDIRS = src doc
+SUBDIRS = \
+	src/core \
+	src/hist-fit \
+	doc
 
 dist_doc_DATA = README COPYING AUTHORS ChangeLog INSTALL NEWS
 dist_bin_SCRIPTS = m-stats-config
