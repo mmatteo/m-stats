@@ -65,29 +65,45 @@ THn* MSTHnHandler::BuildHist(const std::string& fileName,
    // project hist
    if (fProjectID.size()) {
       int IDs[fProjectID.size()] = {0};
-      int counter = 0;
-      for (auto i : fProjectID) IDs[counter++] = i;
+      for (int i =0; i < fProjectID.size(); i++) IDs[i] = fProjectID[i];
 
       THn* tmp = outHist->Projection(fProjectID.size(), IDs);
       delete outHist;
       outHist = tmp;
    }
-   // rebin
-   if (fAxis.size()) {
-      // a new hist is substitute to the original one because the method THn 
-      // doesn't not provide a method that modyfy the object itself
-      int ngroup[fAxis.size()] = {0};
-      for (int i = 0; i < fAxis.size(); i++) ngroup[i] = fAxis[i].fNgroup;
 
-      THn* tmp = outHist->Rebin(ngroup);
-      delete outHist;
-      outHist = tmp;
+   // consistency check
+   if (fAxis.size() > outHist->GetNdimensions()) {
+      std::cerr << "error: requested to set parameters for not existing axis.\n";
+      exit(1);
    }
 
-   // set range user
-   for (int i = 0; i < fAxis.size(); i++) {
-      if (fAxis[i].fSetRange) 
-         outHist->GetAxis(i)->SetRangeUser(fAxis[i].fMin,fAxis[i].fMax);
+   // rebin
+   if (fAxis.size()) {
+
+      // check if a rebin is needed
+      for (int i = 0; i < fAxis.size(); i++) {
+         if (fAxis[i].fNgroup > 1) {
+
+            // a new hist is substitute to the original one because the method THn 
+            // doesn't not provide a method that modify the object itself
+            int ngroup[outHist->GetNdimensions()] = {1};
+            for (int i = 0; i < fAxis.size(); i++) ngroup[i] = fAxis[i].fNgroup;
+
+            THn* tmp = outHist->Rebin(ngroup);
+            delete outHist;
+            outHist = tmp;
+
+            // exit from loop
+            break; 
+         }
+      }
+
+      // set range user if changed
+      for (int i = 0; i < fAxis.size(); i++) {
+         if (fAxis[i].fSetRange) 
+            outHist->GetAxis(i)->SetRangeUser(fAxis[i].fMin,fAxis[i].fMax);
+      }
    }
 
    // normalize 

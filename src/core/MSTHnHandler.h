@@ -54,8 +54,8 @@ class MSTHnHandler : public MSObject
       
 
       //! Set the user range of a specific axis
-      void ProjectToAxis(const int axisID, const double min, const double max) {
-         while (axisID >= fAxis.size()) fAxis.resize(axisID);
+      void SetRange(const int axisID, const double min, const double max) {
+         if (axisID >= fAxis.size()) fAxis.resize(axisID+1);
          fAxis.at(axisID).fMin = min;
          fAxis.at(axisID).fMax = max;
          fAxis.at(axisID).fSetRange = true;
@@ -63,7 +63,7 @@ class MSTHnHandler : public MSObject
 
       //! Rebin a specific axis
       void Rebin(const int axisID, const int ngroup) { 
-         while (axisID >= fAxis.size()) fAxis.resize(axisID);
+         if (axisID >= fAxis.size()) fAxis.resize(axisID+1);
          fAxis.at(axisID).fNgroup = ngroup;
       }
 
