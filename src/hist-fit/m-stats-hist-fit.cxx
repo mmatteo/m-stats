@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Matteo Agostini <matteo.agostini@ph.tum.de>
+// Copyright (C) 2018 Matteo Agostini <matteo.agostini@ph.tum.de>
 
 // This is free software; you can redistribute it and/or modify it under
 // the terms of the GNU Lesser General Public License as published by

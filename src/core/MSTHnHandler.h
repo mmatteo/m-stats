@@ -18,7 +18,10 @@
  * \class mst::MSTHnHandler
  *
  * \brief 
- * class used for handling THn
+ * class used for consistenly handle multiple THn that should undergo the same
+ * transforamtion. The class provides method for setting projections, new axis
+ * ranges and new bining. The function BuildHist load an histogram from file and
+ * return a modified close of it according to the settings requested.
  * 
  * \details 
  *
@@ -47,12 +50,11 @@ class MSTHnHandler : public MSObject
       //! Destructor
       virtual ~MSTHnHandler() {}
 
-
+      //! define sequence of axis to which project the THn
       void ProjectToAxis(const std::vector<int>& axisID) {
          for (const auto& i : axisID) fProjectID.push_back(i);
       }
       
-
       //! Set the user range of a specific axis
       void SetRange(const int axisID, const double min, const double max) {
          if (axisID >= fAxis.size()) fAxis.resize(axisID+1);
@@ -67,7 +69,7 @@ class MSTHnHandler : public MSObject
          fAxis.at(axisID).fNgroup = ngroup;
       }
 
-      //! Normalize histogram. The normalization is performed in the 
+      //! The normalization of the histogram will be performed in the 
       //! user range if respectAxisUserRange is true. Otherwise by default it
       //! includes all bins, including over- and under-shot bins
       void RespectAxisUserRange(const bool respectAxisUserRange = true) { 
@@ -78,13 +80,10 @@ class MSTHnHandler : public MSObject
       THn* BuildHist(const std::string& fileName, 
                      const std::string& histName,
                      const std::string& newHistName,
-                     bool normalize = false);
+                     bool  normalize = false);
 
       //! Reset settings
-      void Reset() { 
-         fProjectID.clear(); fAxis.clear(); 
-         fRespectUserRange = false; 
-      }
+      void Reset() { fProjectID.clear(); fAxis.clear(); fRespectUserRange = false; }
 
    protected:
       struct axis {

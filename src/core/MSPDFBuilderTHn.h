@@ -60,7 +60,7 @@ class MSPDFBuilderTHn : public MSObject
    //! Pair for hist map
    using HistMap  = std::map <const std::string, THn*>;
 
-   //! Load histogram from file
+   //! register histogram 
    void RegisterHist(THn*);
 
    //! Add scaled histogram to tmp PDF

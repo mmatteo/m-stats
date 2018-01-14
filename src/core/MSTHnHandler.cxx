@@ -107,7 +107,7 @@ THn* MSTHnHandler::BuildHist(const std::string& fileName,
       }
    }
 
-   // normalize 
+   // Normalize 
    if (normalize) {
       auto it = outHist->CreateIter(fRespectUserRange);
       Long64_t i = 0;
