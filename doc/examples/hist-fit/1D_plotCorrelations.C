@@ -7,7 +7,7 @@
    gStyle->SetLineScalePS(1.5);
 
    // retrieve Ntuple from file
-   TFile iFile ("1D_fitSingleSet.root");
+   TFile iFile ("tmp_1D_fitSingleSet.root");
    TTree* t = nullptr;
    iFile.GetObject("t",t);
    if(t==nullptr) {

@@ -1,12 +1,12 @@
 {
   "fittingModel": {
     "dataSets": {
-      "dataSetA": {
+      "DSA": {
         "exposure": 1000,
         "components" : {
-          "h1":   { "global": true, "fixed": false, "range":[1e-308, 100.0], "fitStep":0, "refVal":10, "pdf":["2D_pdfs.root","h1"], "injVal":10,  "color":632},
-          "h2":   { "global": true, "fixed": false, "range":[1e-308, 100.0], "fitStep":0, "refVal":10, "pdf":["2D_pdfs.root","h2"], "injVal":10,  "color":633},
-          "h3":   { "global": true, "fixed": false, "range":[1e-308, 100.0], "fitStep":0, "refVal":10, "pdf":["2D_pdfs.root","h3"], "injVal":10,  "color":634}
+          "h1":   { "global": true, "fixed": false, "range":[1e-308, 100.0], "fitStep":0, "refVal":10, "pdf":["tmp_2D_pdfs.root","h1"], "injVal":10,  "color":632},
+          "h2":   { "global": true, "fixed": false, "range":[1e-308, 100.0], "fitStep":0, "refVal":10, "pdf":["tmp_2D_pdfs.root","h2"], "injVal":10,  "color":633},
+          "h3":   { "global": true, "fixed": false, "range":[1e-308, 100.0], "fitStep":0, "refVal":10, "pdf":["tmp_2D_pdfs.root","h3"], "injVal":10,  "color":634}
         },
         "projectOnAxis": [0,1],
         "axis": { 

@@ -17,7 +17,7 @@
    h3.Scale(1./h3.Integral(0,10));
 
    // convert them into THn and store them into a file
-   jFile output ("2D_pdfs.root", "recreate");
+   TFile output ("tmp_2D_pdfs.root", "recreate");
    output.cd();
    for (const auto& i : {h1, h2, h3}) {
       auto tmp = THn::CreateHn(i.GetName(), i.GetName(), &i);
