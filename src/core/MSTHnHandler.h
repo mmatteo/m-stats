@@ -47,38 +47,55 @@ class MSTHnHandler : public MSObject
       //! Destructor
       virtual ~MSTHnHandler() {}
 
-      //! Normalize histogram. The normalization is performed in the 
-      //! user range if respectAxisUserRange is true. Otherwise by default it
-      //! includes all bins, including over- and under-shot bins
-      void NormalizeHists(bool respectAxisUserRange) { 
-         fNormalize = true;
-         fRespectUserRange = respectAxisUserRange;
+
+      void ProjectToAxis(const std::vector<int>& axisID) {
+         for (const auto& i : axisID) fProjectID.push_back(i);
       }
+      
 
       //! Set the user range of a specific axis
-      void SetRangeUser(int axisID, double min, double max) {
-         m[axisID].min = min;
-         m[axisID].max = max;
+      void ProjectToAxis(const int axisID, const double min, const double max) {
+         while (axisID >= fAxis.size()) fAxis.resize(axisID);
+         fAxis.at(axisID).fMin = min;
+         fAxis.at(axisID).fMax = max;
+         fAxis.at(axisID).fSetRange = true;
       }
 
       //! Rebin a specific axis
-      void Rebin(int axisID, int ngroup) { m[axisID].ngroup = ngroup; }
+      void Rebin(const int axisID, const int ngroup) { 
+         while (axisID >= fAxis.size()) fAxis.resize(axisID);
+         fAxis.at(axisID).fNgroup = ngroup;
+      }
 
-      //! Reset tmp PDF 
-      void Reset() { m.clear(); }
+      //! Normalize histogram. The normalization is performed in the 
+      //! user range if respectAxisUserRange is true. Otherwise by default it
+      //! includes all bins, including over- and under-shot bins
+      void NormalizeHists(const bool respectAxisUserRange = false) { 
+         fNormalize = true;
+         fRespectUserRange = respectAxisUserRange;
+      }
 
       //! Load histogram from file, manipulate it and return a copy
       THn* BuildHist(const std::string& fileName, 
                      const std::string& histName,
                      const std::string& newHistName);
 
+      //! Reset settings
+      void Reset() { 
+         fProjectID.clear(); fAxis.clear(); 
+         fNormalize = true; fRespectUserRange = false; 
+      }
+
    protected:
       struct axis {
-         double  min = {0.0};
-         double  max = {0.0};
-         int     ngroup = {1};
+         bool   fSetRange = {false};
+         double fMin      = {0.0};
+         double fMax      = {0.0};
+         int    fNgroup   = {1};
       };
-      std::map<int,axis> m;
+      std::vector<int> fProjectID;
+      std::vector<axis> fAxis;
+
       bool fNormalize        = {true};
       bool fRespectUserRange = {false};
 };
