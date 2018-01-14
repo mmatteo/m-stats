@@ -39,6 +39,6 @@
     "realizations":  1e3,
     "seed": 1,
     "enablePoissonFluctuations": false,
-    "outputFile": "tmp_1D_fitMultiSets.root"
+    "outputFile": "tmp_2D_fitMultiSets.root"
   }
 }
