@@ -225,7 +225,7 @@ int main(int argc, char** argv)
       // start loop over realizations 
       // Note: if the input is taken from file, the loop will be broken after
       // the first iteration
-      const int iMax= gDatafromFile ? 1 : json["MC"]["realizations"].GetInt();
+      const int iMax= gDatafromFile ? 1 : json["MC"]["realizations"].GetDouble();
       for (int i=0; i< iMax; i++) {
          if (!gDatafromFile) 
             cout << "# processing MC realization " << i+1 << " of " << iMax << endl;

@@ -159,7 +159,7 @@ rapidjson::Document LoadConfig (const string& configFileName, bool verbose = fal
    }                                                                           //
    if (json.HasMember("MC")) {                                                 // optional block:
       isMemberCorrect(json, "MC", "Object");                                   // json/MC
-      isMemberCorrect(json["MC"], "realizations", "Int");                      // json/MC/realizations
+      isMemberCorrect(json["MC"], "realizations", "Number");                   // json/MC/realizations
       isMemberCorrect(json["MC"], "seed", "Int");                              // json/MC/seed
       isMemberCorrect(json["MC"], "enablePoissonFluctuations", "Bool");        // json/MC/enablePoissonFluctuations
       isMemberCorrect(json["MC"], "outputFile", "String");                     // json/MC/outputFile
