@@ -30,7 +30,8 @@ namespace mst {
 
 THn* MSTHnHandler::BuildHist(const std::string& fileName, 
                              const std::string& histName,
-                             const std::string& newHistName) {
+                             const std::string& newHistName,
+                             const bool normalize) {
 
    // Get pointer of the file 
    TFile inputFile(fileName.c_str(), "READ");
@@ -43,7 +44,7 @@ THn* MSTHnHandler::BuildHist(const std::string& fileName,
    THn* outHist = nullptr;
    TObject* hist = inputFile.Get(histName.c_str());
    if (!hist) {
-      std::cerr << "error: PDF " << newHistName << " not found in the file\n";
+      std::cerr << "error: hist " << histName << " not found in the file\n";
       exit(1);
    } else {
       // Create local THn
@@ -54,7 +55,7 @@ THn* MSTHnHandler::BuildHist(const std::string& fileName,
          outHist = THn::CreateHn(newHistName.c_str(), newHistName.c_str(), 
                    dynamic_cast<TH1*>(hist));
       } else {
-         std::cerr << "error: PDF " << newHistName << " is not of type THnBase or TH1\n";
+         std::cerr << "error: hist " << newHistName << " is not of type THnBase or TH1\n";
          exit(1);
       }
 
@@ -107,7 +108,7 @@ THn* MSTHnHandler::BuildHist(const std::string& fileName,
    }
 
    // normalize 
-   if (fNormalize) {
+   if (normalize) {
       auto it = outHist->CreateIter(fRespectUserRange);
       Long64_t i = 0;
       double integral = 0;

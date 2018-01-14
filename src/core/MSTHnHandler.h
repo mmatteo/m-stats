@@ -70,20 +70,20 @@ class MSTHnHandler : public MSObject
       //! Normalize histogram. The normalization is performed in the 
       //! user range if respectAxisUserRange is true. Otherwise by default it
       //! includes all bins, including over- and under-shot bins
-      void NormalizeHists(const bool respectAxisUserRange = false) { 
-         fNormalize = true;
+      void RespectAxisUserRange(const bool respectAxisUserRange = true) { 
          fRespectUserRange = respectAxisUserRange;
       }
 
       //! Load histogram from file, manipulate it and return a copy
       THn* BuildHist(const std::string& fileName, 
                      const std::string& histName,
-                     const std::string& newHistName);
+                     const std::string& newHistName,
+                     bool normalize = false);
 
       //! Reset settings
       void Reset() { 
          fProjectID.clear(); fAxis.clear(); 
-         fNormalize = true; fRespectUserRange = false; 
+         fRespectUserRange = false; 
       }
 
    protected:
@@ -96,7 +96,6 @@ class MSTHnHandler : public MSObject
       std::vector<int> fProjectID;
       std::vector<axis> fAxis;
 
-      bool fNormalize        = {true};
       bool fRespectUserRange = {false};
 };
 

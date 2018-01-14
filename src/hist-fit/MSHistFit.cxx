@@ -28,6 +28,7 @@
 #include <MSModelTHnBMLF.h>
 #include <MSModelPulls.h>
 #include <MSMinimizer.h>
+#include <MSTHnHandler.h>
 
 
 using namespace std;
@@ -172,7 +173,8 @@ rapidjson::Document LoadConfig (const string& configFileName, bool verbose = fal
  * Initialize all analysis structures, i.e.: the minimizer, the PDFBuilder and
  * the statistical models composing the likelihood. 
  */
-MSMinimizer* InitializeAnalysis (const rapidjson::Document& json) {
+MSMinimizer* InitializeAnalysis (const rapidjson::Document& json,  
+                                 const std::string& datafileName) {
 
    // initialize fitter
    MSMinimizer* fitter = new MSMinimizer();
@@ -180,100 +182,66 @@ MSMinimizer* InitializeAnalysis (const rapidjson::Document& json) {
    // loop over data sets and for each create the model and PDFBuilder
    for (const auto& dataSet : json["fittingModel"]["dataSets"].GetObject()) {
 
-      // Create a separate pdfBuilder for each model. The pointer of each pdfBuilder 
-      // will be associated to the model.
-      MSPDFBuilderTHn* pdfBuilder = new MSPDFBuilderTHn(dataSet.name.GetString());
-  
-      // Set seed of the random number generator. Note that each PSDBuilder is
-      // initialized with the same seed. This will produce the same data set if
-      // the parameters of the data sets are all exactly the same.
-      if (json.HasMember("MC")) pdfBuilder->SetSeed(json["MC"]["seed"].GetInt());
-
-      // Prepare variables to project the multidimensional PSD's on a sub
-      // set of its axis:
-      //
-      // - ndim_pr: number of dimensions on which to project
-      // - dim_pr: array storing the ordered set of axis indexes on which to
-      //           project. I.e.  dim_pr = {3,1,4} will project the original 
-      //           PDF on its axis 1,3,4 in the following order: x=3, y=1, z=4
-      int ndim_pr = 0; 
-      int* dim_pr = nullptr; 
-
-      // load ndim_pr and dim_pr from the json file (only if the block
-      // projectOnAxis is defined)
-      if (dataSet.value.HasMember("projectOnAxis")) {
-            ndim_pr = dataSet.value["projectOnAxis"].Size();
-            dim_pr = new int[ndim_pr];
-            for (int i = 0; i < ndim_pr; i++) 
-               dim_pr[i] = (dataSet.value["projectOnAxis"].GetArray())[i].GetInt();
-      }
-
-      // Load histograms for each component and possibly project it on a sub-set
-      // of the axis
-      for (const auto& component : dataSet.value["components"].GetObject()) {
-         // Build file path possibly addng prefix from env variable 
-         TString pathToFile (getenv("M_STATS_BINNED_FIT_PDF_DIR"));
-         if (pathToFile != "") pathToFile += "/";
-         pathToFile +=component.value["pdf"][0].GetString();
-
-         pdfBuilder->LoadHist(pathToFile.Data(),
-               component.value["pdf"][1].GetString(),
-               component.name.GetString(), ndim_pr, dim_pr);
-      }
-
-      // set the binning of the pdf's.
-      const int maxAxisNum = 100;
-      std::array<Int_t,maxAxisNum> rebin;
-      for (auto& i : rebin) i = 1;
-      if (dataSet.value.HasMember("axis")) {
-         for (const auto& axis : dataSet.value["axis"].GetObject()) {
-            if (axis.value.HasMember("rebin")) {
-               // the stringstream is used just to convert a string into an integer
-               stringstream conversion; 
-               int axisID = 0;
-               conversion << axis.name.GetString();
-               conversion >> axisID;
-               if (axisID < maxAxisNum ) {
-                     rebin[axisID] = axis.value["rebin"].GetInt();
-               } else {
-                  // The hard-coded maximum number of axis can be increased but it is
-                  // not expected to have so many dimension...
-                  std::cerr << "error: the max number of concived axis is " 
-                       << maxAxisNum << std::endl;
-               }
-            }
-         }
-         pdfBuilder->Rebin(&rebin.at(0));
-
-         // set the UserRange of the pdf's
-         for (const auto& axis : dataSet.value["axis"].GetObject()) {
-            if (axis.value.HasMember("range")) {
-               stringstream conversion; 
-               int axisID = 0;
-               conversion << axis.name.GetString();
-               conversion >> axisID;
-               pdfBuilder->SetRangeUser(axis.value["range"][0].GetDouble(),
-                                        axis.value["range"][1].GetDouble(),
-                                        axisID);
-            }
-         }
-      }
-      // Renormilize the histograms, in a specic range or over the full axis
-      // (ecluding over- and under-flow bins)
-      if (dataSet.value.HasMember("normalizePDFInUserRange"))
-         pdfBuilder->NormalizeHists(dataSet.value["normalizePDFInUserRange"].GetBool());
-
       // Initilize analysis model and associate to them the pdfBuilder.
       // The name of the model is needed to retrieve it from the fitter
       // and to retrieve its local parameters
       MSModelTHnBMLF* mod = new MSModelTHnBMLF(dataSet.name.GetString());
 
-      // Initialize the parameters of each model and set their properties
+      // Set the exposure
+      mod->SetExposure(dataSet.value["exposure"].GetDouble());
+
+      // Initialize hist handler //////////////////////////////////////////////
+      MSTHnHandler handler;
+
+      // read list of projected axis from the json file 
+      // (only if the block projectOnAxis is defined)
+      if (dataSet.value.HasMember("projectOnAxis")) {
+         std::vector<int> v;
+         for (int i = 0; i < dataSet.value["projectOnAxis"].Size(); i++) 
+            v.push_back((dataSet.value["projectOnAxis"].GetArray())[i].GetInt());
+         handler.ProjectToAxis(v);
+      }
+
+      // set the range and binning of the axis
+      if (dataSet.value.HasMember("axis")) {
+         for (const auto& axis : dataSet.value["axis"].GetObject()) {
+            // the stringstream is used just to convert a string into an integer
+            stringstream conversion; 
+            int axisID = 0;
+            conversion << axis.name.GetString();
+            conversion >> axisID;
+            handler.SetRange(axisID, axis.value["range"][0].GetDouble(), 
+                  axis.value["range"][1].GetDouble());
+            handler.Rebin(axisID, axis.value["rebin"].GetInt());
+         }
+      }
+
+      // Renormilize the histograms, in a specic range or over the full axis
+      // (ecluding over- and under-flow bins)
+      if (dataSet.value.HasMember("normalizePDFInUserRange"))
+         handler.RespectAxisUserRange(dataSet.value["normalizePDFInUserRange"].GetBool());
+
+      // end hist handler ////////////////////////////////////////////////////
+
+      // Create a separate pdfBuilder for each model. The pointer of each pdfBuilder 
+      // will be associated to the model.
+      MSPDFBuilderTHn* pdfBuilder = new MSPDFBuilderTHn(dataSet.name.GetString());
+
+      // Set seed of the random number generator. Note that each PSDBuilder is
+      // initialized with the same seed. This will produce the same data set if
+      // the parameters of the data sets are all exactly the same.
+      if (json.HasMember("MC")) pdfBuilder->SetSeed(json["MC"]["seed"].GetInt());
+
+
+      // Initialize the parameters of each model, set their properties and load
+      // the pdf's
       for (const auto& component : dataSet.value["components"].GetObject()) {
 
          auto par = new mst::MSParameter(component.name.GetString());
-         par->SetGlobal       (component.value["global"].GetBool());
-         par->SetFitStartValue(component.value["refVal"].GetDouble());
+         par->SetGlobal(component.value["global"].GetBool());
+         par->SetFixed(component.value["fixed"].GetBool());
+         par->SetRange(component.value["range"].GetArray()[0].GetDouble(),
+                       component.value["range"].GetArray()[1].GetDouble());
 
          // Check if fitStep is registered and is different from zero
          if (component.value["fitStep"].GetDouble())
@@ -283,17 +251,30 @@ MSMinimizer* InitializeAnalysis (const rapidjson::Document& json) {
             par->SetFitStartStep( ((component.value["range"].GetArray())[1].GetDouble()
                                 -  (component.value["range"].GetArray())[0].GetDouble())/100.);
 
-         par->SetRange(component.value["range"].GetArray()[0].GetDouble(),
-                       component.value["range"].GetArray()[1].GetDouble());
+         par->SetFitStartValue(component.value["refVal"].GetDouble());
 
-         par->SetFixed(component.value["fixed"].GetBool());
          mod->AddParameter(par);
+
+         // Load histograms for each component and possibly project it on a sub-set
+         // of the axis
+         TString pathToFile (getenv("M_STATS_HIST_FIT"));
+         if (pathToFile != "") pathToFile += "/";
+         pathToFile +=component.value["pdf"][0].GetString();
+
+         pdfBuilder->RegisterHist( handler.BuildHist( pathToFile.Data(),
+                                   component.value["pdf"][1].GetString(),
+                                   component.name.GetString(),
+                                   true));
       }
 
       // Move the pointer of the pdfBuilder to the model
       mod->SetPDFBuilder(pdfBuilder);
-      // Set the exposure
-      mod->SetExposure(dataSet.value["exposure"].GetDouble());
+
+      // Set data if loaded from file
+      if (!datafileName.empty()) {
+         std::cout << "info: loading input data from " << datafileName << std::endl;
+         mod->SetDataSet( handler.BuildHist(datafileName, mod->GetName(), mod->GetName(), false) );
+      }
 
       // Move pointer of the model to the fitter
       fitter->AddModel(mod);
@@ -328,37 +309,6 @@ MSMinimizer* InitializeAnalysis (const rapidjson::Document& json) {
    // the minimizer
    fitter->SyncFitParameters();
    return fitter;
-}
-
-/*
- * Create data sets and automatically associate it to the models
- */
-bool SetDataSetFromFile (MSMinimizer* fitter, const std::string& fileName) {
-
-   TFile inputFile(fileName.c_str(), "READ");
-   if(inputFile.IsOpen() == kFALSE) {
-      std::cerr << "error: file of input data not found\n";
-      return false;
-   } else {
-      std::cout << "info: loading input data from " << fileName << std::endl;
-   }
-
-   // loop over the models and create and try to load the data set 
-   for (const auto& model: *fitter->GetModels()) {
-
-      // filter only models that  have a data sets (no pulls)
-      const auto mod = dynamic_cast<MSModelTHnBMLF*>(model);
-      if(mod == nullptr) continue;
-
-      THnBase* hist = dynamic_cast<THnBase*>(inputFile.Get(mod->GetName().c_str()));
-      if (!hist) {
-         std::cerr << "error: data histograms not found in the file\n";
-         return false;
-      } else {
-         mod->SetDataSet(hist);
-      }
-   }
-   return true;
 }
 
 /*

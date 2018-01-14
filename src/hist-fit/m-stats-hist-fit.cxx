@@ -70,7 +70,6 @@ using namespace std;
    //! operation modes 
    enum class EOperationMode {kUndefined=0, kInteractiveFit=1, kBatchFit=2};
    enum EOperationMode  gOperationMode  = EOperationMode::kInteractiveFit;
-   bool gDatafromFile = false;
 
    //! input file name
    string gInputFileName {""};
@@ -140,11 +139,9 @@ int main(int argc, char** argv)
 
       TApplication theApp("App",&argc, argv);
 
-      auto fitter = mst::InitializeAnalysis(json);
-      // FIXME: Here load external data set if the name is parsed by command
-      // line
-      if (gDatafromFile) mst::SetDataSetFromFile(fitter, gInputFileName);
-      else mst::SetDataSetFromMC(json, fitter);
+      auto fitter = mst::InitializeAnalysis(json, gInputFileName);
+      // Load data from MC if external file is not provided
+      if (gInputFileName.empty()) mst::SetDataSetFromMC(json, fitter);
 
       mst::Minimize (json,fitter);
 
@@ -166,7 +163,7 @@ int main(int argc, char** argv)
    } else if (gOperationMode == EOperationMode::kBatchFit) {
       gROOT->SetBatch();
 
-      auto fitter = mst::InitializeAnalysis(json);
+      auto fitter = mst::InitializeAnalysis(json, gInputFileName);
 
       // Initialize output variables
       int minuitStatus = 0;
@@ -225,9 +222,9 @@ int main(int argc, char** argv)
       // start loop over realizations 
       // Note: if the input is taken from file, the loop will be broken after
       // the first iteration
-      const int iMax= gDatafromFile ? 1 : json["MC"]["realizations"].GetDouble();
+      const int iMax= gInputFileName.empty() ? json["MC"]["realizations"].GetDouble() : 1;
       for (int i=0; i< iMax; i++) {
-         if (!gDatafromFile) 
+         if (gInputFileName.empty()) 
             cout << "# processing MC realization " << i+1 << " of " << iMax << endl;
 
          // Check for interrupts 
@@ -235,8 +232,8 @@ int main(int argc, char** argv)
          signal(SIGTERM, &sig_handler);
          if (!gRunning) break;
 
-         if (gDatafromFile) mst::SetDataSetFromFile(fitter, gInputFileName); 
-         else mst::SetDataSetFromMC(json, fitter);
+         // Load data from MC if external file is not provided
+         if (gInputFileName.empty()) mst::SetDataSetFromMC(json, fitter);
          mst::Minimize(json, fitter);
 
          { // transfer output values to the vectors associated to the tree
@@ -345,7 +342,6 @@ int process_arguments(int argc, char** argv)
 
          case 'f':
             gInputFileName = optarg;
-            gDatafromFile = true;
             break;
          case 'o':
             gOutputFileName = optarg;
