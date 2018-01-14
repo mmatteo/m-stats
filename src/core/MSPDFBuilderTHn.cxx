@@ -19,6 +19,7 @@
 
 // ROOT libgs
 #include <TFile.h>
+#include <TH1.h>
 #include <THnBase.h>
 #include <TROOT.h>
 
@@ -58,16 +59,30 @@ void MSPDFBuilderTHn::LoadHist(const std::string& fileName,
   TFile inputFile(fileName.c_str(), "READ");
   if(inputFile.IsOpen() == kFALSE) {
     std::cerr << "error: input file not found\n";
-    return;
+    exit(1);
   }
 
   // load new hist checking for the type
-  THnBase* hist = dynamic_cast<THnBase*>(inputFile.Get(histName.c_str()));
+  TObject* hist = inputFile.Get(histName.c_str());
   if (!hist) {
-    std::cerr << "error: PDF not found in the file\n";
+    std::cerr << "error: PDF " << newHistName
+              << " not found in the file\n";
+    exit(1);
   } else {
+     THn* tmp = nullptr;
      // Create local THn
-     THn* tmp = THn::CreateHn(newHistName.c_str(), newHistName.c_str(), hist);
+     if (dynamic_cast<THnBase*>(hist)) {
+        tmp = THn::CreateHn(newHistName.c_str(), newHistName.c_str(), 
+              dynamic_cast<THnBase*>(hist));
+     } else if (dynamic_cast<TH1*>(hist)) {
+        tmp = THn::CreateHn(newHistName.c_str(), newHistName.c_str(), 
+              dynamic_cast<TH1*>(hist));
+     } else {
+        std::cerr << "error: PDF " << newHistName
+                  << " is not of type THnBase or TH1\n";
+       exit(1);
+     }
+
      if (dim_pr == nullptr) {
         tmp->SetName(newHistName.c_str());
         tmp->SetTitle(newHistName.c_str());
@@ -81,6 +96,7 @@ void MSPDFBuilderTHn::LoadHist(const std::string& fileName,
      }
      delete hist;
   }
+  
 
   inputFile.Close();
   return;
