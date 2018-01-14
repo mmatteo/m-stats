@@ -7,5 +7,5 @@ Name: @PACKAGE_TARNAME@
 Version: @VERSION@
 Description: Frequentist Statistics Package
 Requires: @PKGCONFIG_DEPS@
-Libs: -L${libdir} -l@PACKAGE_TARNAME@ @DEP_LIBS@
+Libs: -L${libdir} -lm-stats-core -lm-stats-hist-fit @DEP_LIBS@
 Cflags: -I${includedir} @DEP_CFLAGS@

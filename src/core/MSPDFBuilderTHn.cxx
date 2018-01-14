@@ -19,6 +19,7 @@
 
 // ROOT libgs
 #include <TFile.h>
+#include <TH1.h>
 #include <THnBase.h>
 #include <TROOT.h>
 
