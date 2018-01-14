@@ -16,13 +16,11 @@
    h2.Scale(1./h2.Integral(0,10));
    h3.Scale(1./h3.Integral(0,10));
 
-   // convert them into THn and store them into a file
+   // store hists them into a file
    TFile output ("tmp_1D_pdfs.root", "recreate");
    output.cd();
-   for (const auto& i : {h1, h2, h3}) {
-      auto tmp = THn::CreateHn(i.GetName(), i.GetName(), &i);
-      tmp->SetEntries(i.GetEntries());
-      tmp->Write();
-   }
+   h1.Write();
+   h2.Write();
+   h3.Write();
    output.Close();
 }
