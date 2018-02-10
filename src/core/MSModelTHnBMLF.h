@@ -52,6 +52,9 @@ class MSModelTHnBMLF : public MSModelT<THnBase,MSPDFBuilderTHn>
       //! function returning the negative log likelihood function to be 
       //! minimized (NLL)
       double NLogLikelihood(double* par) override;
+
+      //! Check consistency between PDF's and data set
+      bool AreInputHistsConsistent () override;
 };
 
 } // namespace mst

@@ -137,6 +137,9 @@ class MSModelT: public MSModel {
       //! Get the pointer to the pdf builder
       TPDF* GetPDFBuilder() const {return fPDFBuilder;}
 
+      //! Check consistency between PDF's and data set
+      virtual bool AreInputHistsConsistent () = 0;
+
    protected:
       //! pointer to the data set 
       const TData* fDataSet {nullptr}; 
