@@ -75,7 +75,7 @@ class MSPDFBuilderTHn : public MSObject
    //! Get copy of tmp PDF and reset tmpPDF
    THn* GetPDF (const std::string& objName);
 
-   //! Get MC realizatoin extracted by tmpPDF
+   //! Get MC realization extracted by tmpPDF
    THn* GetMCRealizaton(int ctsNum, bool addPoissonFluctuation = false);
 
  protected:

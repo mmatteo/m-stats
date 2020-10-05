@@ -260,7 +260,7 @@ int main(int argc, char** argv)
 
          otree->Fill();
 
-         // Optinally store data sets into files
+         // Optionally store data sets into files
          // FIXME: Store also the data set in the tree
          if (gStoreMFDataSets) {
             // get main output file name
